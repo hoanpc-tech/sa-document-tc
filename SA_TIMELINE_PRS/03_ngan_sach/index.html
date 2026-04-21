@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -892,6 +892,22 @@
     .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
     .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
     .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+    /* RESPONSIVE LAPTOP SCREENS */
+    @media (max-width: 1400px) {
+      .topbar-brand .name { font-size: 13px; }
+      .prs-doc-btn { padding: 4px 8px; font-size: 10px; }
+      .prs-doc-nav { gap: 4px; margin-right: 6px; }
+      .topbar-inner { padding: 10px 16px; gap: 12px; }
+      .topbar-back { padding: 5px 10px; font-size: 10.5px; }
+    }
+    
+    @media (max-width: 1150px) {
+      .topbar-brand .name { font-size: 12px; }
+      .topbar-brand .sub { font-size: 8px; display: none; }
+      .prs-doc-btn { font-size: 9px; padding: 4px 6px; }
+      .prs-doc-nav { gap: 2px; margin-right: 4px; }
+      .topbar-back { font-size: 9.5px; padding: 4px 8px; }
+    }
   </style>
 </head>
 
