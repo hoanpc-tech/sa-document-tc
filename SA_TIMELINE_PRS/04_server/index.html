@@ -830,6 +830,7 @@
       gap: 16px;
       margin-bottom: 24px;
     }
+
     .cfg-card {
       background: #fff;
       border: 1px solid #D5E8F5;
@@ -837,6 +838,7 @@
       box-shadow: var(--shadow);
       padding: 20px;
     }
+
     .cfg-title {
       font-size: 11px;
       font-weight: 800;
@@ -846,17 +848,20 @@
       padding-bottom: 10px;
       border-bottom: 1px solid #EEF5FB;
     }
+
     .cfg-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
+
     .cfg-item {
       display: grid;
       grid-template-columns: 80px 1fr;
       gap: 10px;
       font-size: 11px;
     }
+
     .cfg-lbl {
       font-weight: 700;
       color: var(--gray-mid);
@@ -864,6 +869,7 @@
       font-size: 9px;
       letter-spacing: 1px;
     }
+
     .cfg-val {
       color: var(--dark);
       font-weight: 600;
@@ -934,26 +940,91 @@
       margin: 0 auto;
       padding: 28px 28px 110px;
     }
+
     /* PRS DOC NAV (inside topbar) */
-    .prs-doc-nav { display: flex; gap: 5px; align-items: center; margin-right: 10px; }
-    .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
-    .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
-    .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+    .prs-doc-nav {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .prs-doc-btn {
+      color: rgba(255, 255, 255, .72);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    .prs-doc-btn:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .4);
+    }
+
+    .prs-doc-btn.prs-doc-active {
+      background: rgba(255, 255, 255, .28);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .55);
+      font-weight: 800;
+    }
+
     /* RESPONSIVE LAPTOP SCREENS */
     @media (max-width: 1400px) {
-      .topbar-brand .name { font-size: 13px; }
-      .prs-doc-btn { padding: 4px 8px; font-size: 10px; }
-      .prs-doc-nav { gap: 4px; margin-right: 6px; }
-      .topbar-inner { padding: 10px 16px; gap: 12px; }
-      .topbar-back { padding: 5px 10px; font-size: 10.5px; }
+      .topbar-brand .name {
+        font-size: 13px;
+      }
+
+      .prs-doc-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .prs-doc-nav {
+        gap: 4px;
+        margin-right: 6px;
+      }
+
+      .topbar-inner {
+        padding: 10px 16px;
+        gap: 12px;
+      }
+
+      .topbar-back {
+        padding: 5px 10px;
+        font-size: 10.5px;
+      }
     }
-    
+
     @media (max-width: 1150px) {
-      .topbar-brand .name { font-size: 12px; }
-      .topbar-brand .sub { font-size: 8px; display: none; }
-      .prs-doc-btn { font-size: 9px; padding: 4px 6px; }
-      .prs-doc-nav { gap: 2px; margin-right: 4px; }
-      .topbar-back { font-size: 9.5px; padding: 4px 8px; }
+      .topbar-brand .name {
+        font-size: 12px;
+      }
+
+      .topbar-brand .sub {
+        font-size: 8px;
+        display: none;
+      }
+
+      .prs-doc-btn {
+        font-size: 9px;
+        padding: 4px 6px;
+      }
+
+      .prs-doc-nav {
+        gap: 2px;
+        margin-right: 4px;
+      }
+
+      .topbar-back {
+        font-size: 9.5px;
+        padding: 4px 8px;
+      }
     }
   </style>
 </head>
@@ -967,7 +1038,10 @@
         <div class="sub">Timeline &amp; Ngân sách · CĐS 2025–2027</div>
         <div class="name">KẾ HOẠCH TRIỂN KHAI - NGÂN SÁCH — HẠ TẦNG MÁY CHỦ SERVER</div>
       </div>
-      <div class="topbar-right"><div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a href="../../SA_3LAYERS_PRS/01_overview/index.html" class="prs-doc-btn">PRS·02 · Kiến trúc SA</a><a href="../01_timeline/index.html" class="prs-doc-btn prs-doc-active">PRS·03 · Timeline</a></div>
+      <div class="topbar-right">
+        <div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a
+            href="../../SA_3LAYERS_PRS/01_overview/index.html" class="prs-doc-btn">PRS·02 · Kiến trúc SA</a><a
+            href="../01_timeline/index.html" class="prs-doc-btn prs-doc-active">PRS·03 · Timeline</a></div>
 
         <a href="../../index.html" class="topbar-back">🏠 Trang chủ</a>
       </div>
@@ -1185,19 +1259,23 @@
         <div class="cfg-list">
           <div class="cfg-item">
             <div class="cfg-lbl">Compute</div>
-            <div class="cfg-val"><strong>Amazon EC2</strong> (Dòng T3 / M5 instances) — Hỗ trợ Auto-scaling scale theo tải hệ thống.</div>
+            <div class="cfg-val"><strong>Amazon EC2</strong> (Dòng T3 / M5 instances) — Hỗ trợ Auto-scaling scale theo
+              tải hệ thống.</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Database</div>
-            <div class="cfg-val"><strong>Amazon RDS</strong> (PostgreSQL / MySQL Multi-AZ) — Đảm bảo DB an toàn, tự động backup.</div>
+            <div class="cfg-val"><strong>Amazon RDS</strong> (PostgreSQL / MySQL Multi-AZ) — Đảm bảo DB an toàn, tự động
+              backup.</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Storage</div>
-            <div class="cfg-val"><strong>Amazon S3</strong> — Lưu trữ bucket không giới hạn dung lượng File, Hình ảnh công trường.</div>
+            <div class="cfg-val"><strong>Amazon S3</strong> — Lưu trữ bucket không giới hạn dung lượng File, Hình ảnh
+              công trường.</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Network</div>
-            <div class="cfg-val"><strong>AWS VPC + WAF</strong> + Application Load Balancer — Bảo mật, phân luồng truy cập nội bộ và bên ngoài.</div>
+            <div class="cfg-val"><strong>AWS VPC + WAF</strong> + Application Load Balancer — Bảo mật, phân luồng truy
+              cập nội bộ và bên ngoài.</div>
           </div>
         </div>
       </div>
@@ -1207,19 +1285,23 @@
         <div class="cfg-list">
           <div class="cfg-item">
             <div class="cfg-lbl">Máy chủ (x3)</div>
-            <div class="cfg-val"><strong>3 Node H3C UniServer R4700 G6 (1U)</strong><br>CPU: 2x Intel Xeon Gold 6526Y (Tổng 32 Core vật lý/node)<br>RAM: 256GB ECC DDR5/node<br>Nguồn: Dual PSU 1300W dự phòng</div>
+            <div class="cfg-val"><strong>3 Node H3C UniServer R4700 G6 (1U)</strong><br>CPU: 2x Intel Xeon Gold 6526Y
+              (Tổng 32 Core vật lý/node)<br>RAM: 256GB ECC DDR5/node<br>Nguồn: Dual PSU 1300W dự phòng</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Ảo hóa</div>
-            <div class="cfg-val"><strong>VMware vSphere Foundation</strong> (96 Core) — Chạy HA Cluster (High Availability tự động migrate VM).</div>
+            <div class="cfg-val"><strong>VMware vSphere Foundation</strong> (96 Core) — Chạy HA Cluster (High
+              Availability tự động migrate VM).</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Lưu trữ</div>
-            <div class="cfg-val"><strong>NAS Synology RS2423+</strong><br>Khả dụng ~12TB HDD (RAID 5) / Phục vụ Database & Lưu trữ.</div>
+            <div class="cfg-val"><strong>NAS Synology RS2423+</strong><br>Khả dụng ~12TB HDD (RAID 5) / Phục vụ Database
+              & Lưu trữ.</div>
           </div>
           <div class="cfg-item">
             <div class="cfg-lbl">Mạng & BM</div>
-            <div class="cfg-val"><strong>Firewall FortiGate 60F</strong> (x2 Active-Passive HA)<br><strong>Core Switch Maipu NSS5812</strong> (x2 Stackable L3).</div>
+            <div class="cfg-val"><strong>Firewall FortiGate 60F</strong> (x2 Active-Passive HA)<br><strong>Core Switch
+                Maipu NSS5812</strong> (x2 Stackable L3).</div>
           </div>
         </div>
       </div>
@@ -1232,13 +1314,14 @@
         style="font-size:11px;font-weight:800;color:var(--b-deep);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">
         &#x2B50; LỘ TRÌNH THỰC HIỆN ĐỀ XUẤT CHO BAN LÃNH ĐẠO</div>
       <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--gray-txt);line-height:1.7;">
-        <div>1. <strong style="color:var(--b-deep);">Giai đoạn khởi nghiệp (Hiện tại - Hết 2026): Dùng thuần Cloud
+        <div>1. <strong style="color:var(--b-deep);">Giai đoạn ban đầu (Hiện tại - Hết 2026): Dùng thuần Cloud
             AWS</strong> — Tiêu tốn OPEX linh hoạt để giải quyết ngay bài toán tái khởi động CMS và HRM mà không phải
           đợi mua sắm thiết bị.</div>
         <div>2. <strong style="color:var(--b-deep);">Giai đoạn Build in-house (Năm 2027): Tiến hành sắm Server</strong>
           — Đặt mua cụm Dell PowerEdge và xin báo giá chốt Hợp đồng thuê không gian Rack tại các Datacenter chuẩn Tier 3
           ở Hà Nội.</div>
-        <div>3. <strong style="color:var(--b-deep);">Giai đoạn Độc lập (Cuối 2027): Migration toàn diện</strong> — Rút
+        <div>3. <strong style="color:var(--b-deep);">Giai đoạn Vận hành tự chủ (Cuối 2027): Migration toàn diện</strong>
+          — Rút
           dần khỏi AWS để tránh phình chi phí đường dài, dịch chuyển dữ liệu về Server của Trung Chính đặt tại DC để tối
           ưu OPEX trọn đời với cả 14 hệ thống.</div>
       </div>

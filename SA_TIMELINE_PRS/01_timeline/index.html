@@ -900,26 +900,91 @@
       margin: 0 auto;
       padding: 28px 28px 110px;
     }
+
     /* PRS DOC NAV (inside topbar) */
-    .prs-doc-nav { display: flex; gap: 5px; align-items: center; margin-right: 10px; }
-    .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
-    .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
-    .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+    .prs-doc-nav {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      margin-right: 10px;
+    }
+
+    .prs-doc-btn {
+      color: rgba(255, 255, 255, .72);
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .22);
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    .prs-doc-btn:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .4);
+    }
+
+    .prs-doc-btn.prs-doc-active {
+      background: rgba(255, 255, 255, .28);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .55);
+      font-weight: 800;
+    }
+
     /* RESPONSIVE LAPTOP SCREENS */
     @media (max-width: 1400px) {
-      .topbar-brand .name { font-size: 13px; }
-      .prs-doc-btn { padding: 4px 8px; font-size: 10px; }
-      .prs-doc-nav { gap: 4px; margin-right: 6px; }
-      .topbar-inner { padding: 10px 16px; gap: 12px; }
-      .topbar-back { padding: 5px 10px; font-size: 10.5px; }
+      .topbar-brand .name {
+        font-size: 13px;
+      }
+
+      .prs-doc-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .prs-doc-nav {
+        gap: 4px;
+        margin-right: 6px;
+      }
+
+      .topbar-inner {
+        padding: 10px 16px;
+        gap: 12px;
+      }
+
+      .topbar-back {
+        padding: 5px 10px;
+        font-size: 10.5px;
+      }
     }
-    
+
     @media (max-width: 1150px) {
-      .topbar-brand .name { font-size: 12px; }
-      .topbar-brand .sub { font-size: 8px; display: none; }
-      .prs-doc-btn { font-size: 9px; padding: 4px 6px; }
-      .prs-doc-nav { gap: 2px; margin-right: 4px; }
-      .topbar-back { font-size: 9.5px; padding: 4px 8px; }
+      .topbar-brand .name {
+        font-size: 12px;
+      }
+
+      .topbar-brand .sub {
+        font-size: 8px;
+        display: none;
+      }
+
+      .prs-doc-btn {
+        font-size: 9px;
+        padding: 4px 6px;
+      }
+
+      .prs-doc-nav {
+        gap: 2px;
+        margin-right: 4px;
+      }
+
+      .topbar-back {
+        font-size: 9.5px;
+        padding: 4px 8px;
+      }
     }
   </style>
 </head>
@@ -933,7 +998,10 @@
         <div class="sub">Timeline &amp; Ngân sách · CĐS 2025–2027</div>
         <div class="name">KẾ HOẠCH TRIỂN KHAI - NGÂN SÁCH — HẠ TẦNG MÁY CHỦ SERVER</div>
       </div>
-      <div class="topbar-right"><div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a href="../../SA_3LAYERS_PRS/01_overview/index.html" class="prs-doc-btn">PRS·02 · Kiến trúc SA</a><a href="../01_timeline/index.html" class="prs-doc-btn prs-doc-active">PRS·03 · Timeline</a></div>
+      <div class="topbar-right">
+        <div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a
+            href="../../SA_3LAYERS_PRS/01_overview/index.html" class="prs-doc-btn">PRS·02 · Kiến trúc SA</a><a
+            href="../01_timeline/index.html" class="prs-doc-btn prs-doc-active">PRS·03 · Timeline</a></div>
 
         <a href="../../index.html" class="topbar-back">🏠 Trang chủ</a>
       </div>
@@ -1119,7 +1187,7 @@
       <div class="gantt-row phase-row" style="background:#E2F3F3;border-bottom:2px solid #0d6e6e;">
         <div class="gr-label"
           style="grid-column: 1 / -1; font-size:12px;font-weight:800;color:#0d6e6e;letter-spacing:1px;text-transform:uppercase;padding:10px 16px;">
-          &#x1F3D7; GIAI ĐOẠN 2 — HỆ THỐNG BIÊN (2026–2028)</div>
+          &#x1F3D7; GIAI ĐOẠN 2 — HỆ THỐNG BIÊN (2027–2028)</div>
       </div>
 
       <!-- 8. TC.PRO -->
