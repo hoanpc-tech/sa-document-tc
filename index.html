@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CĐS Trung Chính — Trung Tâm Tài Liệu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --tc-blue-deep: #0057A8;
+            --tc-blue-main: #0078D4;
+            --tc-blue-mid: #1E90FF;
+            --tc-blue-light: #00AEEF;
+            --tc-blue-sky: #E8F4FD;
+            --tc-white: #FFFFFF;
+            --tc-gray-light: #F5F8FC;
+            --tc-gray-mid: #B0C4D8;
+            --tc-gray-text: #4A6080;
+            --tc-dark: #1A2B42;
+            --tc-success: #28A745;
+            --tc-warning: #FFC107;
+            --tc-danger: #DC3545;
+            --tc-gradient-header: linear-gradient(90deg, #003D7A 0%, #0078D4 55%, #00AEEF 100%);
+            --tc-gradient-hero: linear-gradient(135deg, #0057A8 0%, #0091D5 60%, #00AEEF 100%);
+            --tc-shadow-card: 0 4px 20px rgba(0, 87, 168, 0.10);
+            --tc-shadow-hover: 0 8px 32px rgba(0, 87, 168, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--tc-gray-light);
+            color: var(--tc-dark);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: var(--tc-gradient-header);
+            padding: 0;
+            box-shadow: 0 2px 20px rgba(0, 60, 140, 0.30);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-logo {
+            height: 48px;
+            filter: brightness(0) invert(1);
+        }
+
+        .header-brand {
+            flex: 1;
+        }
+
+        .header-brand .sub {
+            color: rgba(255, 255, 255, 0.70);
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .header-brand .name {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-right {
+            text-align: right;
+            color: rgba(255, 255, 255, 0.80);
+            font-size: 12px;
+        }
+
+        .header-right .date {
+            font-weight: 600;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        /* ── HERO BANNER ── */
+        .hero {
+            background: linear-gradient(135deg, #E8F4FD 0%, #DAEEF9 50%, #EBF5FF 100%);
+            border-bottom: 1px solid #BDD9EF;
+            padding: 36px 32px;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--tc-gradient-hero);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--tc-blue-deep);
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            background: var(--tc-gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 14px;
+            color: var(--tc-gray-text);
+            max-width: 640px;
+            line-height: 1.7;
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: #fff;
+            border-bottom: 1px solid #D5E8F5;
+            box-shadow: 0 2px 8px rgba(0, 87, 168, 0.06);
+        }
+
+        .stats-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 32px;
+            display: flex;
+            gap: 0;
+            align-items: center;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid #D5E8F5;
+            padding: 0 16px;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-num {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--tc-blue-main);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--tc-gray-text);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* ── MAIN CONTENT ── */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 36px 32px 80px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--tc-blue-main);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding-left: 14px;
+            border-left: 3px solid var(--tc-blue-main);
+            margin-bottom: 20px;
+        }
+
+        /* ── CARD GRID ── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .doc-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid #D5E8F5;
+            box-shadow: var(--tc-shadow-card);
+            overflow: hidden;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--tc-shadow-hover);
+            border-color: var(--tc-blue-mid);
+        }
+
+        /* PRS cards (01-03) — highlight xanh */
+        .doc-card.prs {
+            background: linear-gradient(160deg, #E8F4FD 0%, #F0F8FF 60%, #fff 100%);
+            border-color: #9CCFEF;
+            box-shadow: 0 4px 20px rgba(0, 120, 212, 0.12);
+        }
+
+        .doc-card.prs:hover {
+            background: linear-gradient(160deg, #D5EDF9 0%, #E8F4FD 60%, #F5FAFF 100%);
+            border-color: var(--tc-blue-mid);
+            box-shadow: 0 8px 32px rgba(0, 120, 212, 0.22);
+        }
+
+        .card-top {
+            height: 6px;
+            background: var(--tc-gradient-hero);
+        }
+
+        .card-top.green {
+            background: linear-gradient(90deg, #1a6b3c, #28a745);
+        }
+
+        .card-top.orange {
+            background: linear-gradient(90deg, #c45c2a, #e07040);
+        }
+
+        .card-top.teal {
+            background: linear-gradient(90deg, #0d6e6e, #1a9a9a);
+        }
+
+        .card-top.purple {
+            background: linear-gradient(90deg, #6a3fa6, #9b6fd4);
+        }
+
+        .card-top.disabled {
+            background: #B0C4D8;
+        }
+
+        .card-body {
+            padding: 22px 22px 0;
+            flex: 1;
+        }
+
+        .card-num {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--tc-blue-light);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--tc-blue-deep);
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 12.5px;
+            color: var(--tc-gray-text);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .meta-tag {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-done {
+            background: rgba(40, 167, 69, .12);
+            color: #1a6b3c;
+            border: 1px solid rgba(40, 167, 69, .25);
+        }
+
+        .tag-wip {
+            background: rgba(0, 120, 212, .10);
+            color: var(--tc-blue-main);
+            border: 1px solid rgba(0, 120, 212, .20);
+        }
+
+        .tag-new {
+            background: rgba(0, 174, 239, .12);
+            color: #0075a2;
+            border: 1px solid rgba(0, 174, 239, .25);
+        }
+
+        .tag-plan {
+            background: rgba(176, 196, 216, .20);
+            color: var(--tc-gray-text);
+            border: 1px solid #B0C4D8;
+        }
+
+        .card-footer {
+            padding: 14px 22px 18px;
+        }
+
+        .card-btn {
+            display: block;
+            text-align: center;
+            padding: 11px 20px;
+            background: var(--tc-gradient-hero);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: opacity 0.2s, transform 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        .card-btn:hover {
+            opacity: 0.88;
+            transform: scale(1.01);
+        }
+
+        .card-btn.disabled {
+            background: #B0C4D8;
+            color: #fff;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Animation động hút mắt cho 3 nút bấm PRS Trình chiếu */
+        .doc-card.prs .card-btn {
+            background: linear-gradient(135deg, #0078D4 0%, #00AEEF 50%, #0078D4 100%);
+            background-size: 200% 200%;
+            animation: prsPulse 2.5s infinite ease-in-out;
+            box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .doc-card.prs .card-btn:hover {
+            animation: none;
+            background-position: right center;
+            box-shadow: 0 6px 24px rgba(0, 174, 239, 0.6);
+            transform: translateY(-2px) scale(1.02);
+            opacity: 1;
+        }
+
+        @keyframes prsPulse {
+            0% {
+                background-position: 0% 50%;
+                box-shadow: 0 0 10px rgba(0, 174, 239, 0.2);
+            }
+
+            50% {
+                background-position: 100% 50%;
+                box-shadow: 0 0 22px rgba(0, 174, 239, 0.6), 0 0 8px rgba(0, 120, 212, 0.4);
+            }
+
+            100% {
+                background-position: 0% 50%;
+                box-shadow: 0 0 10px rgba(0, 174, 239, 0.2);
+            }
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, #D5E8F5, transparent);
+            margin: 8px 0 36px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--tc-gradient-header);
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 22px 32px;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <img src="assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="header-logo">
+            <div class="header-brand">
+                <div class="sub">Chuyển đổi số · Tài liệu nội bộ</div>
+                <div class="name">CHIẾN LƯỢC CĐS TRUNG CHÍNH</div>
+            </div>
+            <div class="header-right">
+                <div class="date" id="today-date">--/--/----</div>
+                <div>VCI Consulting · 2026</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-inner">
+            <div class="hero-tag">🏗️ Hệ sinh thái phần mềm</div>
+            <h1>Kiến trúc <span>Số hoá Toàn diện</span><br>Công ty TNHH TM & XD Trung Chính</h1>
+            <p>Trung tâm truy cập các tài liệu Kiến trúc Hệ thống (SA), Trình chiếu C-Level, Kế hoạch Triển khai và Hạ
+                tầng công nghệ cho toàn bộ lộ trình Chuyển đổi Số 2025–2027.</p>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-num">14</div>
+                <div class="stat-label">Hệ thống phần mềm</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">3</div>
+                <div class="stat-label">Tầng kiến trúc</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">~35 tỷ</div>
+                <div class="stat-label">Ngân sách phần mềm</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">2025–28</div>
+                <div class="stat-label">Lộ trình triển khai</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">15</div>
+                <div class="stat-label">Dự án đang chạy</div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+
+        <!-- SECTION 1: PRESENTATION -->
+        <div class="section-title">📊 Tài liệu Trình chiếu C-Level</div>
+        <div class="cards-grid">
+
+            <div class="doc-card prs">
+                <div class="card-top"></div>
+                <div class="card-body">
+                    <div class="card-num">PRS · 01</div>
+                    <div class="card-title">Cơ Cấu Tổ Chức Trung Chính</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-wip">v1.1 · 2026</span>
+                    </div>
+                    <div class="card-desc">Sơ đồ tổ chức tương tác: Hội đồng thành viên → TGĐ → 5 Phó TGĐ → Khối Văn
+                        phòng (10 phòng) · Khối Chi nhánh (3 xưởng) · Khối Dự án (15 BĐH).</div>
+                </div>
+                <div class="card-footer">
+                    <a href="./CCTC_TC_PRS/index.html" class="card-btn">Mở Trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card prs">
+                <div class="card-top orange"></div>
+                <div class="card-body">
+                    <div class="card-num">PRS · 02</div>
+                    <div class="card-title">Kiến trúc 3 Tầng & Lộ trình CĐS</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">5 slides · 14 Apps · AI</span>
+                    </div>
+                    <div class="card-desc">Trình chiếu tổng thể 3-tier Architecture: Tầng 3 (14 Apps) → Tầng 2 (Data
+                        Lake / AI Knowledge Base) → Tầng 1 (C-Level Dashboard & AI Engine).</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_3LAYERS_PRS/01_overview/index.html" class="card-btn">Mở Trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card prs">
+                <div class="card-top purple"></div>
+                <div class="card-body">
+                    <div class="card-num">PRS · 03</div>
+                    <div class="card-title">Timeline - Ngân sách CĐS - Server</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-wip">4 slides · ~35 tỷ</span>
+                    </div>
+                    <div class="card-desc">Roadmap 2025–2028, trạng thái hợp đồng 14 hệ thống (WMS ✔ HRM ✔ CMS ⧨ IMS/EMS
+                        ⧨ chờ ký), phân bổ ~35 tỷ và lộ trình hạ tầng AWS → DC theo từng giai đoạn.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_TIMELINE_PRS/01_timeline/index.html" class="card-btn">Mở Trình chiếu →</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 2: SA DOCUMENTS -->
+        <div class="section-title">📐 Tài liệu Kiến trúc Hệ thống (SA)</div>
+        <div class="cards-grid">
+
+            <div class="doc-card">
+                <div class="card-top"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 00 · INDEX</div>
+                    <div class="card-title">Master SA Index — Kiến trúc 3 Tầng</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">incl. Glossary</span>
+                    </div>
+                    <div class="card-desc">Tổng quan toàn bộ kiến trúc hệ thống, danh mục tài liệu SA và nguyên lý thiết
+                        kế 3 tầng của hệ sinh thái phần mềm Trung Chính. Bao gồm bảng Glossary thuật ngữ chuẩn.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_3LAYERS_PRS/01_overview/index.html" class="card-btn">Xem trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top orange"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 01 · TẦNG 1</div>
+                    <div class="card-title">Intelligence Layer — Dashboard & AI</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">Chủ tịch + TGĐ Persona</span>
+                    </div>
+                    <div class="card-desc">Tầng 1: Dashboard riêng Chủ tịch (sản xuất sâu) và TGĐ (hành chính/pháp lý),
+                        AI Engine 7 mô hình, Early Warning System.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_3LAYERS_PRS/04_operations_layer/index.html" class="card-btn">Xem trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top green"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 02 · TẦNG 2</div>
+                    <div class="card-title">Data Layer — Data Lake & KNB</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">TC.KNB Knowledge Base</span>
+                    </div>
+                    <div class="card-desc">Tầng 2: 3-Zone Data Lake, Star Schema DWH, Kho Tri thức Tổ chức (TC.KNB) —
+                        nền tảng cho AI và Dashboard.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_3LAYERS_PRS/03_data_layer/index.html" class="card-btn">Xem trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top teal"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 03 · TẦNG 3</div>
+                    <div class="card-title">Application Layer — 14 Hệ thống</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">incl. TC.CMS × 10 TCP.*</span>
+                    </div>
+                    <div class="card-desc">Tầng 3: Chi tiết 14 hệ thống, phân hệ module cho từng hệ thống, trạng thái và
+                        liên kết dữ liệu với Tầng 2.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_3LAYERS_PRS/02_application_layer/index.html" class="card-btn">Xem trình chiếu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top purple"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 04 · HẠ TẦNG</div>
+                    <div class="card-title">Infrastructure Plan — Cloud → DC</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                    </div>
+                    <div class="card-desc">Lộ trình Chiến lược 2 giai đoạn: Cloud-First AWS (hiện tại ~$872/th) → Hybrid
+                        DC + AWS khi chi phí tiếp cận ngưỡng $4.000-5.000/th. Phân tích ROI 5 năm, kế hoạch Migration
+                        không downtime.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_DOCS/04_infra_plan/index.html" class="card-btn">Xem tài liệu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top"></div>
+                <div class="card-body">
+                    <div class="card-num">SA · 05 · TIMELINE</div>
+                    <div class="card-title">Timeline &amp; Budget — 2025→2028</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-wip">~35 tỷ tổng</span>
+                    </div>
+                    <div class="card-desc">Roadmap 14 hệ thống, trạng thái hợp đồng (HRM 4,3 tỷ · WMS 1,5 tỷ · CMS 6 tỷ
+                        đã ký · IMS/EMS chờ ký), kế hoạch ký kết giai đoạn tiếp theo 2025-2028.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_DOCS/05_timeline_budget/index.html" class="card-btn">Xem tài liệu →</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 3: SERVER/INFRA DOCS -->
+        <div class="section-title">🖥️ Tài liệu Hạ tầng & Server</div>
+        <div class="cards-grid">
+
+            <!-- Server Section: Updated with both files + presentation link -->
+
+            <div class="doc-card">
+                <div class="card-top orange"></div>
+                <div class="card-body">
+                    <div class="card-num">SRV · 01 · AWS LIVE</div>
+                    <div class="card-title">AWS Production — Hiện trạng (đang chạy)</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">🟢 Production</span>
+                        <span class="meta-tag tag-wip">TC.HRM + TC.WMS</span>
+                        <span class="meta-tag tag-new">~$872/tháng</span>
+                    </div>
+                    <div class="card-desc">Kiến trúc AWS hiện tại: EKS Kubernetes Cluster + RDS + VPC + WAF. Đang chạy
+                        TC.HRM và TC.WMS. Phân tích chi phí và dự báo cụ thể khi scale thêm hệ thống.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SERVER_DOCS/01_aws_current/index.html" class="card-btn">Xem tài liệu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="card-top teal"></div>
+                <div class="card-body">
+                    <div class="card-num">SRV · 02 · DC PLAN</div>
+                    <div class="card-title">Kế hoạch Hạ tầng Server (DC + Hardware)</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-wip">CAPEX ~3,53 tỷ</span>
+                    </div>
+                    <div class="card-desc">So sánh On-Premise vs DC, thông số kỹ thuật H3C UniServer R4700 G6, VMware
+                        vSphere, NAS Synology, Firewall FortiGate, phân bổ VM và chi phí CAPEX/OPEX.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SERVER_DOCS/02_server_plan/index.html" class="card-btn">Xem tài liệu →</a>
+                </div>
+            </div>
+
+            <div class="doc-card prs">
+                <div class="card-top"></div>
+                <div class="card-body">
+                    <div class="card-num">SRV · 03 · SLIDES</div>
+                    <div class="card-title">Trình chiếu Hạ tầng Server — C-Level</div>
+                    <div class="card-meta">
+                        <span class="meta-tag tag-done">✅ Hoàn thành</span>
+                        <span class="meta-tag tag-new">Timeline · Cấu hình · Roadmap</span>
+                    </div>
+                    <div class="card-desc">Trình chiếu trang 04 nằm trong bộ PRS-03: Lộ trình hạ tầng, Timeline Gantt
+                        chuyển đổi AWS → DC, cấu hình kỹ thuật chi tiết dành cho Ban Lãnh đạo.</div>
+                </div>
+                <div class="card-footer">
+                    <a href="SA_TIMELINE_PRS/04_server/index.html" class="card-btn">Mở Trình chiếu →</a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <strong>CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</strong> &nbsp;·&nbsp;
+        Tài liệu nội bộ — Chuyển đổi số &nbsp;·&nbsp;
+        Tư vấn: <strong>VCI Consulting</strong> &nbsp;·&nbsp; 2026
+    </footer>
+
+    <script>
+        // Hiển thị ngày hôm nay
+        const d = new Date();
+        const days = ['Chủ nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        document.getElementById('today-date').textContent =
+            days[d.getDay()] + ', ngày ' +
+            String(d.getDate()).padStart(2, '0') + '/' +
+            String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+    </script>
+</body>
+
+</html>

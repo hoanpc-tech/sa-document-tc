@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·05 — Timeline & Budget · Kế hoạch Triển khai CĐS Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--danger:#DC3545;--gold:#d4930a;--plan:#6a80a0;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);color:#fff;}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#EBF4FD,#F5F9FF);border:1px solid #BDD9EF;border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--b-light);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;}
+    .hero-badge{background:var(--grad-hero);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:22px;font-weight:800;color:var(--b-main);line-height:1;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* TABLE */
+    table{width:100%;border-collapse:collapse;}
+    th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    td{padding:10px 14px;border-bottom:1px solid #EEF5FB;font-size:12px;}
+    tr:hover td{background:var(--b-sky);}
+    .hd-bold td:first-child{font-weight:800;}
+    /* STATUS PILLS */
+    .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;}
+    .pill-done{background:rgba(40,167,69,.12);color:#1a6b3c;border:1px solid rgba(40,167,69,.25);}
+    .pill-wip{background:rgba(0,120,212,.1);color:var(--b-main);border:1px solid rgba(0,120,212,.2);}
+    .pill-wait{background:rgba(224,112,64,.10);color:#b04820;border:1px solid rgba(224,112,64,.25);}
+    .pill-plan{background:rgba(106,128,160,.1);color:var(--plan);border:1px solid rgba(106,128,160,.2);}
+    .pill-pause{background:rgba(220,53,69,.10);color:var(--danger);border:1px solid rgba(220,53,69,.2);}
+    /* BUDGET BAR */
+    .budget-bar-wrap{background:#fff;border:1px solid #D5E8F5;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:24px;}
+    .bb-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+    .bb-total{font-size:24px;font-weight:800;color:var(--b-deep);}
+    .bb-sub{font-size:12px;color:var(--gray-txt);}
+    .bb-track{background:#EEF5FB;border-radius:8px;height:20px;overflow:hidden;margin-bottom:10px;}
+    .bb-fill{height:100%;background:var(--grad-hero);border-radius:8px;display:flex;align-items:center;padding:0 10px;}
+    .bb-fill-lbl{font-size:10px;font-weight:700;color:#fff;}
+    .bb-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-txt);}
+    /* COLS */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:20px;box-shadow:var(--shadow);}
+    .card-title{font-size:12px;font-weight:800;color:var(--b-main);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--b-sky);}
+    .milestone-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+    .milestone-item{display:flex;align-items:flex-start;gap:12px;font-size:12px;}
+    .m-dot{width:10px;height:10px;border-radius:50%;background:var(--b-main);margin-top:2px;flex-shrink:0;}
+    .m-dot.done{background:var(--success);}
+    .m-dot.warn{background:var(--warning);}
+    .m-time{font-weight:700;color:var(--b-deep);min-width:80px;}
+    .m-desc{color:var(--gray-txt);line-height:1.5;}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-05 · Timeline & Budget</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 05 · Timeline & Budget</div>
+        <div class="hero-h1">Kế hoạch Triển khai & Ngân sách 2025–2028</div>
+        <div class="hero-sub">Tổng ngân sách ~35 tỷ VNĐ · 14 hệ thống · Lộ trình phân kỳ 4 Phase · Cập nhật T4/2026</div>
+      </div>
+      <div class="hero-badge">📅 Timeline</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">💰</div><div class="stat-num">~35 tỷ</div><div class="stat-lbl">Tổng ngân sách phần mềm</div></div>
+      <div class="stat"><div class="stat-icon">✅</div><div class="stat-num">11,8 tỷ</div><div class="stat-lbl">Đã ký HĐ (3 hệ thống)</div></div>
+      <div class="stat"><div class="stat-icon">⏳</div><div class="stat-num">~23,2 tỷ</div><div class="stat-lbl">Chưa ký (11 hệ thống)</div></div>
+      <div class="stat"><div class="stat-icon">📊</div><div class="stat-num">~34%</div><div class="stat-lbl">Tỷ lệ đã cam kết</div></div>
+    </div>
+
+    <!-- BUDGET BAR -->
+    <div class="section">
+      <div class="sec-title">Tổng quan Ngân sách</div>
+      <div class="budget-bar-wrap">
+        <div class="bb-header">
+          <div>
+            <div class="bb-total">~35.000.000.000 VNĐ</div>
+            <div class="bb-sub">Tổng ngân sách phần mềm · Giai đoạn 2025–2028</div>
+          </div>
+        </div>
+        <div class="bb-track">
+          <div class="bb-fill" style="width:34%;">
+            <span class="bb-fill-lbl">Đã ký HĐ: 11,8 tỷ (34%)</span>
+          </div>
+        </div>
+        <div class="bb-labels">
+          <span>✅ TC.HRM (4,3 tỷ) · TC.WMS (1,5 tỷ) · TC.CMS (6 tỷ)</span>
+          <span>⏳ 11 hệ thống còn lại ~23,2 tỷ chưa ký</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HỆ THỐNG TABLE -->
+    <div class="section">
+      <div class="sec-title">Chi tiết Ngân sách & Tiến độ theo Hệ thống</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Hệ thống</th>
+            <th>Tên đầy đủ</th>
+            <th>Chi phí (VNĐ)</th>
+            <th>HĐ</th>
+            <th>Tiến độ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td><td><strong>TC.ADMIN</strong></td><td>Hệ thống Quản trị Lõi</td><td>TBD</td>
+            <td><span class="pill pill-plan">🔲 Chưa ký</span></td>
+            <td><span class="pill pill-wip">🔵 Đang làm Q3-Q4/2025</span></td>
+          </tr>
+          <tr>
+            <td>2</td><td><strong>TC.HRM</strong></td><td>QL Nhân sự</td><td><strong>4.300.000.000</strong></td>
+            <td><span class="pill pill-done">✅ Đã ký</span></td>
+            <td><span class="pill pill-wip">🔵 Phase 2 ~66%</span></td>
+          </tr>
+          <tr>
+            <td>3</td><td><strong>TC.WMS</strong></td><td>QL Công việc & KSNB</td><td><strong>1.500.000.000</strong></td>
+            <td><span class="pill pill-done">✅ Đã ký</span></td>
+            <td><span class="pill pill-done">✅ Hoàn thành</span></td>
+          </tr>
+          <tr>
+            <td>4</td><td><strong>TC.IMS</strong></td><td>Quản lý VTTC</td><td>Chưa XĐ</td>
+            <td><span class="pill pill-wait">⏳ Chờ ký HĐ</span></td>
+            <td><span class="pill pill-wip">🔵 Phase 1/3 đang làm</span></td>
+          </tr>
+          <tr>
+            <td>5</td><td><strong>TC.EMS</strong></td><td>Quản lý Máy thiết bị</td><td>Chưa XĐ</td>
+            <td><span class="pill pill-wait">⏳ Chờ ký HĐ</span></td>
+            <td><span class="pill pill-wip">🔵 Phase 1/3 đang làm</span></td>
+          </tr>
+          <tr>
+            <td>6</td><td><strong>TC.MMS</strong></td><td>Quản lý Vật tư Chính</td><td>TBD</td>
+            <td><span class="pill pill-plan">🔲 Chưa ký</span></td>
+            <td><span class="pill pill-plan">🔲 Q4/2026–Q1/2027</span></td>
+          </tr>
+          <tr>
+            <td>7</td><td><strong>TC.CMS</strong></td><td>Hệ thống Quản lý Dự án</td><td><strong>6.000.000.000</strong></td>
+            <td><span class="pill pill-done">✅ Đã ký</span></td>
+            <td><span class="pill pill-pause">⏸️ Tạm dừng · Tái khởi Q2/2026</span></td>
+          </tr>
+          <tr>
+            <td>8–10</td><td><strong>TC.PRO / QMS / DMS</strong></td><td>Sản lượng · Chất lượng · Tài liệu</td><td>TBD</td>
+            <td><span class="pill pill-plan">🔲 Mũi 1</span></td>
+            <td><span class="pill pill-plan">🔲 Q2–Q3/2027</span></td>
+          </tr>
+          <tr>
+            <td>11–12</td><td><strong>TC.OMS / HSE</strong></td><td>Hành chính · An toàn</td><td>TBD</td>
+            <td><span class="pill pill-plan">🔲 Mũi 2</span></td>
+            <td><span class="pill pill-plan">🔲 Q4/2027–Q1/2028</span></td>
+          </tr>
+          <tr>
+            <td>13–14</td><td><strong>TC.FIN / SUB</strong></td><td>Tài chính · Thầu phụ</td><td>TBD</td>
+            <td><span class="pill pill-plan">🔲 Mũi 3</span></td>
+            <td><span class="pill pill-plan">🔲 Q2–Q3/2028</span></td>
+          </tr>
+          <tr class="hd-bold" style="background:#F5F9FF;">
+            <td colspan="3"><strong>TỔNG ĐÃ KÝ HĐ</strong></td>
+            <td><strong>11.800.000.000</strong></td>
+            <td colspan="2"></td>
+          </tr>
+          <tr class="hd-bold" style="background:#EBF5FF;">
+            <td colspan="3"><strong>TỔNG DỰ KIẾN TOÀN DỰ ÁN</strong></td>
+            <td><strong>~35.000.000.000</strong></td>
+            <td colspan="2"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2 COLS: MILESTONES & NEXT STEPS -->
+    <div class="two-col section">
+      <div class="card">
+        <div class="card-title">🗓️ Các Mốc Quan trọng 2026</div>
+        <ul class="milestone-list">
+          <li class="milestone-item"><div class="m-dot done"></div><div><div class="m-time">Q1/2026</div><div class="m-desc">TC.WMS ✅ Hoàn thành chính thức</div></div></li>
+          <li class="milestone-item"><div class="m-dot"></div><div><div class="m-time">Q2/2026</div><div class="m-desc">Ký HĐ IMS & EMS — Ưu tiên số 1</div></div></li>
+          <li class="milestone-item"><div class="m-dot"></div><div><div class="m-time">Q2/2026</div><div class="m-desc">TC.CMS tái khởi động Phase 1</div></div></li>
+          <li class="milestone-item"><div class="m-dot"></div><div><div class="m-time">Q2/2026</div><div class="m-desc">TC.HRM Phase 2 hoàn tất (~66% → 100%)</div></div></li>
+          <li class="milestone-item"><div class="m-dot warn"></div><div><div class="m-time">Q3/2026</div><div class="m-desc">IMS + EMS Phase 1 live production</div></div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🚀 Ưu tiên Hành động Q2/2026</div>
+        <ul class="milestone-list">
+          <li class="milestone-item"><div class="m-dot warn"></div><div><div class="m-time">🔴 Khẩn</div><div class="m-desc">Ký HĐ chính thức TC.IMS & TC.EMS — đang ở trạng thái Chờ ký</div></div></li>
+          <li class="milestone-item"><div class="m-dot"></div><div><div class="m-time">📋 Cần làm</div><div class="m-desc">Tái khởi động TC.CMS — chuẩn bị tài nguyên nhân sự và kỹ thuật</div></div></li>
+          <li class="milestone-item"><div class="m-dot"></div><div><div class="m-time">📋 Cần làm</div><div class="m-desc">Finalize TC.HRM Phase 2 — đẩy đến hoàn thành 100%</div></div></li>
+          <li class="milestone-item"><div class="m-dot done"></div><div><div class="m-time">✅ Xong</div><div class="m-desc">TC.WMS hoàn thành — bàn giao vận hành Phòng KSNB</div></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sf">Timeline & Budget · SA-05 · Trung Chính CĐS 2025–2028 · VCI Consulting · Cập nhật T4/2026</div>
+  </div>
+</body>
+</html>

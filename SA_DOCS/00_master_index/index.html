@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·00 — Master SA Index · Kiến trúc 3 Tầng Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --b-deep:#0057A8; --b-main:#0078D4; --b-mid:#1E90FF; --b-light:#00AEEF;
+      --b-sky:#E8F4FD; --dark:#1A2B42; --gray-txt:#4A6080; --gray-mid:#B0C4D8;
+      --success:#28A745; --warning:#E07040; --danger:#DC3545; --gold:#d4930a;
+      --grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);
+      --grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);
+      --shadow:0 4px 20px rgba(0,87,168,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    /* TOPBAR */
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);color:#fff;}
+    /* PAGE */
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#EBF4FD,#F5F9FF);border:1px solid #BDD9EF;border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--b-light);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;max-width:600px;}
+    .hero-badge{background:var(--grad-hero);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:26px;font-weight:800;color:var(--b-main);line-height:1;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    /* SECTION */
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* 3 TIER ARCHITECTURE */
+    .tier-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+    .tier-card{border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+    .tier-card.t1{background:linear-gradient(135deg,#FFF8E8,#FFFDF0);border:2px solid var(--gold);}
+    .tier-card.t2{background:linear-gradient(135deg,#EBF4FD,#F2F9FF);border:2px solid var(--b-main);}
+    .tier-card.t3{background:linear-gradient(135deg,#F0FFF5,#F8FFFC);border:2px solid var(--success);}
+    .tier-num{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+    .t1 .tier-num{color:var(--gold);}
+    .t2 .tier-num{color:var(--b-main);}
+    .t3 .tier-num{color:var(--success);}
+    .tier-name{font-size:16px;font-weight:800;color:var(--dark);margin-bottom:8px;}
+    .tier-desc{font-size:12px;color:var(--gray-txt);line-height:1.7;margin-bottom:12px;}
+    .tier-chips{display:flex;flex-wrap:wrap;gap:5px;}
+    .chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;}
+    .t1 .chip{background:rgba(212,147,10,.12);color:#8a5f00;border:1px solid rgba(212,147,10,.25);}
+    .t2 .chip{background:rgba(0,120,212,.10);color:var(--b-main);border:1px solid rgba(0,120,212,.2);}
+    .t3 .chip{background:rgba(40,167,69,.10);color:#1a6b3c;border:1px solid rgba(40,167,69,.2);}
+    /* FLOW */
+    .flow-arrow{text-align:center;color:var(--b-main);font-size:20px;margin:8px 0;}
+    /* DOC INDEX TABLE */
+    .doc-table{width:100%;border-collapse:collapse;margin-bottom:24px;}
+    .doc-table th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    .doc-table td{padding:11px 14px;border-bottom:1px solid #EEF5FB;font-size:12.5px;}
+    .doc-table tr:hover td{background:var(--b-sky);}
+    .doc-table a{color:var(--b-main);font-weight:700;text-decoration:none;}
+    .doc-table a:hover{text-decoration:underline;}
+    .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+    .tag-done{background:rgba(40,167,69,.12);color:#1a6b3c;border:1px solid rgba(40,167,69,.25);}
+    /* ROADMAP PHASE */
+    .phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+    .phase-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:16px;box-shadow:var(--shadow);}
+    .phase-name{font-size:10px;font-weight:800;color:var(--b-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+    .phase-title{font-size:13px;font-weight:800;color:var(--b-deep);margin-bottom:10px;}
+    .phase-items{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .phase-items li{font-size:11px;color:var(--gray-txt);display:flex;align-items:center;gap:6px;}
+    .phase-items li::before{content:"→";color:var(--b-main);font-weight:800;flex-shrink:0;}
+    /* SF */
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-00 · Master Index</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 00 · Master Index</div>
+        <div class="hero-h1">Kiến trúc 3 Tầng — Hệ sinh thái Số hoá</div>
+        <div class="hero-sub">Bản đồ tổng thể toàn bộ hệ thống phần mềm Trung Chính. Kiến trúc Enterprise 3-Tier phân tầng rõ ràng: Vận hành → Dữ liệu → Phân tích & AI.</div>
+      </div>
+      <div class="hero-badge">🏗️ Architecture</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">🏗️</div><div class="stat-num">3</div><div class="stat-lbl">Tầng kiến trúc</div></div>
+      <div class="stat"><div class="stat-icon">💻</div><div class="stat-num">14</div><div class="stat-lbl">Hệ thống phần mềm</div></div>
+      <div class="stat"><div class="stat-icon">📋</div><div class="stat-num">6</div><div class="stat-lbl">Tài liệu SA</div></div>
+      <div class="stat"><div class="stat-icon">📅</div><div class="stat-num">2025–28</div><div class="stat-lbl">Lộ trình triển khai</div></div>
+    </div>
+
+    <!-- 3 TIERS -->
+    <div class="section">
+      <div class="sec-title">Kiến trúc 3 Tầng (3-Tier Enterprise Architecture)</div>
+      <div class="tier-cols">
+        <div class="tier-card t1">
+          <div class="tier-num">Tầng 1 — Intelligence</div>
+          <div class="tier-name">Dashboard & AI</div>
+          <div class="tier-desc">Mắt thần của Ban Lãnh đạo. Chỉ đọc, phân tích và ra quyết định. AI hỗ trợ dự báo, sinh báo cáo và cảnh báo bất thường.</div>
+          <div class="tier-chips">
+            <span class="chip">TC.BI</span>
+            <span class="chip">TC.AI</span>
+            <span class="chip">TC.NCS</span>
+          </div>
+        </div>
+        <div class="tier-card t2">
+          <div class="tier-num">Tầng 2 — Data Layer</div>
+          <div class="tier-name">Data Lake & Warehouse</div>
+          <div class="tier-desc">Tim của hệ thống. Thu gom, chuẩn hóa và tổ chức toàn bộ dữ liệu từ 14 hệ thống Tầng 3 — nền tảng cho AI và Dashboard.</div>
+          <div class="tier-chips">
+            <span class="chip">TC.DLK</span>
+            <span class="chip">TC.DWH</span>
+            <span class="chip">TC.KNB</span>
+          </div>
+        </div>
+        <div class="tier-card t3">
+          <div class="tier-num">Tầng 3 — Application</div>
+          <div class="tier-name">14 Hệ thống Nghiệp vụ</div>
+          <div class="tier-desc">Tay chân của hệ thống. Nơi 14 phần mềm nghiệp vụ sinh ra dữ liệu mỗi ngày cho Phòng ban và Ban Điều Hành Dự án sử dụng.</div>
+          <div class="tier-chips">
+            <span class="chip">TC.HRM</span><span class="chip">TC.WMS</span>
+            <span class="chip">TC.CMS</span><span class="chip">TC.IMS</span>
+            <span class="chip">TC.EMS</span><span class="chip">+9 HT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP PHASES -->
+    <div class="section">
+      <div class="sec-title">Roadmap Triển khai (2025 – 2028)</div>
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-name">Phase 1 · Nền tảng</div>
+          <div class="phase-title">🏗️ Q3-Q4/2025</div>
+          <ul class="phase-items">
+            <li>TC.ADMIN — Quyền & Master Data</li>
+            <li>TC.HRM — Nhân sự Hội sở</li>
+            <li>TC.WMS — Giao việc & KSNB</li>
+            <li>TC.DLK — ETL Pipeline cơ bản</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-name">Phase 2 · Công trường</div>
+          <div class="phase-title">🏗️ Q1-Q3/2026</div>
+          <ul class="phase-items">
+            <li>TC.CMS — Quản lý Dự án (MVP)</li>
+            <li>TC.IMS — Vật tư thi công</li>
+            <li>TC.EMS — Máy thiết bị</li>
+            <li>TC.PRO — Sản lượng</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-name">Phase 3 · Hội sở</div>
+          <div class="phase-title">🏗️ Q2/2026–Q1/2027</div>
+          <ul class="phase-items">
+            <li>TC.MMS — Vật tư Chính</li>
+            <li>TC.FIN — Tài chính Kế toán</li>
+            <li>TC.HSE, TC.QMS, TC.DMS</li>
+            <li>TC.OMS, TC.SUB</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-name">Phase 4 · Intelligence</div>
+          <div class="phase-title">🏗️ Q2-Q4/2027</div>
+          <ul class="phase-items">
+            <li>TC.DWH — Data Warehouse</li>
+            <li>TC.BI — Dashboard KPI</li>
+            <li>TC.AI — Phân tích dự báo</li>
+            <li>TC.NCS — Cảnh báo tự động</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOC INDEX -->
+    <div class="section">
+      <div class="sec-title">Danh mục Tài liệu SA</div>
+      <table class="doc-table">
+        <thead>
+          <tr>
+            <th>Mã</th>
+            <th>Tên Tài liệu</th>
+            <th>Nội dung</th>
+            <th>Trạng thái</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SA·00</strong></td>
+            <td>Master SA Index</td>
+            <td>Kiến trúc 3 Tầng Tổng thể (Trang này)</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>SA·01</strong></td>
+            <td>Intelligence Layer</td>
+            <td>Tầng 1: Dashboard Chủ tịch / TGĐ + AI Engine 7 mô hình + EWS</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td><a href="../01_intelligence_layer/index.html">Xem →</a></td>
+          </tr>
+          <tr>
+            <td><strong>SA·02</strong></td>
+            <td>Data Layer</td>
+            <td>Tầng 2: Data Lake / Data Warehouse + TC.KNB Knowledge Base</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td><a href="../02_data_layer/index.html">Xem →</a></td>
+          </tr>
+          <tr>
+            <td><strong>SA·03</strong></td>
+            <td>Application Layer</td>
+            <td>Tầng 3: 14 Hệ thống & phân rã Module chi tiết</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td><a href="../03_application_layer/index.html">Xem →</a></td>
+          </tr>
+          <tr>
+            <td><strong>SA·04</strong></td>
+            <td>Infrastructure Plan</td>
+            <td>Hạ tầng: Cloud AWS → Hybrid DC (Lộ trình 2 Giai đoạn + ROI)</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td><a href="../04_infra_plan/index.html">Xem →</a></td>
+          </tr>
+          <tr>
+            <td><strong>SA·05</strong></td>
+            <td>Timeline & Budget</td>
+            <td>Roadmap 2025–2028 + Ngân sách ~35 tỷ + Trạng thái HĐ</td>
+            <td><span class="tag tag-done">✅ Hoàn thành</span></td>
+            <td><a href="../05_timeline_budget/index.html">Xem →</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sf">Kiến trúc Hệ thống SA · Master Index · Trung Chính CĐS 2025–2028 · VCI Consulting</div>
+  </div>
+</body>
+</html>

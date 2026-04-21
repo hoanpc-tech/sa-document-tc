@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·03 — Application Layer · 14 Hệ thống Nghiệp vụ Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--danger:#DC3545;--teal:#0d6e6e;--purple:#6a3fa6;--green:#1a6b3c;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);color:#fff;}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#EBF4FD,#F5F9FF);border:1px solid #BDD9EF;border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--b-light);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;}
+    .hero-badge{background:var(--grad-hero);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:22px;font-weight:800;color:var(--b-main);line-height:1;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* GROUP HEADER */
+    .group-header{padding:12px 18px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+    .group-header.blue{background:linear-gradient(135deg,#0057A8,#0078D4);color:#fff;}
+    .group-header.teal{background:linear-gradient(135deg,#0d6e6e,#1a9a9a);color:#fff;}
+    .group-header.green{background:linear-gradient(135deg,#1a6b3c,#28a05a);color:#fff;}
+    .group-header.orange{background:linear-gradient(135deg,#c45c2a,#e07040);color:#fff;}
+    .group-header.purple{background:linear-gradient(135deg,#6a3fa6,#9b6fd4);color:#fff;}
+    .group-label{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:.8;}
+    .group-name{font-size:15px;font-weight:800;}
+    /* SYSTEM CARD */
+    .sys-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;}
+    .sys-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;box-shadow:var(--shadow);}
+    .sys-code{font-size:10px;font-weight:800;color:var(--b-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+    .sys-name{font-size:14px;font-weight:800;color:var(--b-deep);margin-bottom:5px;}
+    .sys-owner{font-size:11px;color:var(--gray-txt);margin-bottom:12px;}
+    .module-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .module-list li{display:flex;gap:10px;font-size:11.5px;color:var(--dark);padding:4px 0;border-bottom:1px solid #F0F6FB;}
+    .module-list li:last-child{border:none;}
+    .mod-num{color:var(--b-light);font-weight:700;min-width:28px;flex-shrink:0;}
+    .mod-name{font-weight:700;}
+    .mod-desc{color:var(--gray-txt);font-size:11px;margin-top:1px;}
+    /* FULL WIDTH */
+    .sys-card.full{grid-column:1/-1;}
+    .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px;}
+    .pill-done{background:rgba(40,167,69,.12);color:#1a6b3c;}
+    .pill-wip{background:rgba(0,120,212,.1);color:var(--b-main);}
+    .pill-plan{background:rgba(106,128,160,.1);color:#4a6080;}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-03 · Application Layer</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 03 · Application Layer — Tầng 3</div>
+        <div class="hero-h1">14 Hệ thống Nghiệp vụ — Phân rã Module</div>
+        <div class="hero-sub">Toàn bộ hệ thống phần mềm nghiệp vụ chia thành 5 nhóm: Quản trị Lõi · Back-Office ERP · Quản lý Dự án · Vật tư & Thiết bị · Hệ thống Lớp Biên</div>
+      </div>
+      <div class="hero-badge">💻 App Layer</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">💻</div><div class="stat-num">14</div><div class="stat-lbl">Hệ thống phần mềm</div></div>
+      <div class="stat"><div class="stat-icon">🏢</div><div class="stat-num">5</div><div class="stat-lbl">Nhóm tổ hợp</div></div>
+      <div class="stat"><div class="stat-icon">⚙️</div><div class="stat-num">60+</div><div class="stat-lbl">Phân hệ module</div></div>
+      <div class="stat"><div class="stat-icon">🔗</div><div class="stat-num">3</div><div class="stat-lbl">Tầng tích hợp</div></div>
+    </div>
+
+    <!-- TỔ HỢP 01: LÕI -->
+    <div class="section">
+      <div class="group-header blue">
+        <div>
+          <div class="group-label">Tổ hợp 01 · Core Framework</div>
+          <div class="group-name">Nhóm Quản trị Lõi</div>
+        </div>
+      </div>
+      <div class="sys-grid">
+        <div class="sys-card full">
+          <div class="sys-code">TC.ADMIN — Hệ thống Quản trị Lõi</div>
+          <div class="sys-name">Core Admin & Identity System</div>
+          <div class="sys-owner">🏢 Dùng chung toàn hệ thống · Nền tảng cho 13 hệ thống còn lại</div>
+          <ul class="module-list">
+            <li><span class="mod-num">1.1</span><div><div class="mod-name">Sơ đồ Tổ chức</div><div class="mod-desc">Quản lý Entity Công ty mẹ, Chi nhánh, Phòng ban, cấp bậc</div></div></li>
+            <li><span class="mod-num">1.2</span><div><div class="mod-name">Phân quyền (RBAC)</div><div class="mod-desc">Cấu hình Role, Permission cho từng chức danh</div></div></li>
+            <li><span class="mod-num">1.3</span><div><div class="mod-name">Master Data</div><div class="mod-desc">Cấu hình danh mục dùng chung: Loại VT, Chuẩn KPI, Thông số HT</div></div></li>
+            <li><span class="mod-num">1.4</span><div><div class="mod-name">Audit Trail</div><div class="mod-desc">Lưu vết toàn bộ lịch sử thao tác hệ thống</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TỔ HỢP 02: BACK OFFICE -->
+    <div class="section">
+      <div class="group-header teal">
+        <div>
+          <div class="group-label">Tổ hợp 02 · Back-Office ERP</div>
+          <div class="group-name">Nhóm Hệ sinh thái Hội Sở</div>
+        </div>
+      </div>
+      <div class="sys-grid">
+        <div class="sys-card">
+          <div class="sys-code">TC.HRM <span class="pill pill-wip">🔵 ~66%</span></div>
+          <div class="sys-name">Human Resources Management</div>
+          <div class="sys-owner">🏢 Phòng Nhân sự · Tích hợp TC.FIN</div>
+          <ul class="module-list">
+            <li><span class="mod-num">2.1</span><div><div class="mod-name">Hồ sơ Nhân sự</div><div class="mod-desc">Quản lý hồ sơ cá nhân, HĐ lao động, điều động</div></div></li>
+            <li><span class="mod-num">2.2</span><div><div class="mod-name">Xác nhận Chủ đầu tư</div><div class="mod-desc">Hồ sơ phê duyệt nhân sự với bên CĐT dự án</div></div></li>
+            <li><span class="mod-num">2.3</span><div><div class="mod-name">Năng lực & Đào tạo</div><div class="mod-desc">Chuẩn năng lực chức danh, lịch sử đào tạo, chứng chỉ</div></div></li>
+            <li><span class="mod-num">2.4</span><div><div class="mod-name">KPI & Chấm công</div><div class="mod-desc">KPI tập thể/cá nhân, Mức thu nhập, Chấm công & phân ca</div></div></li>
+            <li><span class="mod-num">2.5</span><div><div class="mod-name">Lương & Phúc lợi</div><div class="mod-desc">Hệ thống lương động, BHXH, Tạm ứng, Bổ nhiệm/Miễn nhiệm</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">TC.WMS <span class="pill pill-done">✅ Hoàn thành</span></div>
+          <div class="sys-name">Work Management System</div>
+          <div class="sys-owner">🏢 Phòng KSNB · Công cụ vận hành & kiểm soát nội bộ</div>
+          <ul class="module-list">
+            <li><span class="mod-num">3.1</span><div><div class="mod-name">Quản lý Công việc</div><div class="mod-desc">Giao/Nhận việc, Đề xuất, Báo cáo định kỳ</div></div></li>
+            <li><span class="mod-num">3.2</span><div><div class="mod-name">Đánh giá Định kỳ</div><div class="mod-desc">Tự đánh giá, Đánh giá cấp trên cuối kỳ</div></div></li>
+            <li><span class="mod-num">3.3</span><div><div class="mod-name">Quản trị & Tiện ích</div><div class="mod-desc">Dashboard, Lịch công việc, Chat nội bộ, Sai phạm</div></div></li>
+            <li><span class="mod-num">3.4</span><div><div class="mod-name">Báo cáo & Thống kê</div><div class="mod-desc">Tổng hợp KPI theo kỳ, Báo cáo định kỳ</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">TC.DMS <span class="pill pill-plan">🔲 Q2-Q3/2027</span></div>
+          <div class="sys-name">Document Management System</div>
+          <div class="sys-owner">🏢 Phòng Kỹ thuật · Kho hồ sơ dự án</div>
+          <ul class="module-list">
+            <li><span class="mod-num">4.1</span><div><div class="mod-name">Kho Tài liệu Công ty</div><div class="mod-desc">Quy trình, quy định nội bộ, tài liệu pháp lý</div></div></li>
+            <li><span class="mod-num">4.3</span><div><div class="mod-name">Hồ sơ Thiết kế & BIM</div><div class="mod-desc">Bản vẽ thi công, BPTC, version control</div></div></li>
+            <li><span class="mod-num">4.6</span><div><div class="mod-name">E-Sign</div><div class="mod-desc">Luồng trình duyệt đa cấp, ký số điện tử</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">TC.FIN <span class="pill pill-plan">🔲 Q2-Q3/2028</span></div>
+          <div class="sys-name">Finance & Accounting</div>
+          <div class="sys-owner">🏢 Phòng Tài chính Kế toán</div>
+          <ul class="module-list">
+            <li><span class="mod-num">–</span><div><div class="mod-name">Kế toán dự án</div><div class="mod-desc">Hóa đơn, Công nợ AP/AR, BCTC dự án</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Cashflow dự báo</div><div class="mod-desc">Dòng tiền, công nợ, dự báo thanh khoản</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TỔ HỢP 03: DỰ ÁN -->
+    <div class="section">
+      <div class="group-header orange">
+        <div>
+          <div class="group-label">Tổ hợp 03 · Construction Management</div>
+          <div class="group-name">Nhóm Quản lý Dự án & Công trường</div>
+        </div>
+      </div>
+      <div class="sys-grid">
+        <div class="sys-card full">
+          <div class="sys-code">TC.CMS — 6.000.000.000 VNĐ <span class="pill pill-plan">⏸️ Tái khởi Q2/2026</span></div>
+          <div class="sys-name">Construction Management System</div>
+          <div class="sys-owner">🏗️ Ban Điều Hành Dự án · Hệ thống công trường ưu tiên số 1</div>
+          <ul class="module-list">
+            <li><span class="mod-num">–</span><div><div class="mod-name">Nhật ký thi công</div><div class="mod-desc">Ghi nhận hàng ngày: Sản lượng, Nhân lực, Máy móc, Thời tiết</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Tiến độ dự án</div><div class="mod-desc">So sánh thực tế vs KH Gantt, Early Warning bám sát</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Chấm công công trường</div><div class="mod-desc">Chấm công site, kết nối TC.HRM</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Offline Sync</div><div class="mod-desc">Ghi tạm khi mất sóng, tự đồng bộ khi có mạng</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">TC.IMS <span class="pill pill-wip">⏳ Chờ ký HĐ</span></div>
+          <div class="sys-name">Inventory Management System</div>
+          <div class="sys-owner">🏗️ Chi nhánh · Quản lý Vật tư Thi công (VTTC)</div>
+          <ul class="module-list">
+            <li><span class="mod-num">–</span><div><div class="mod-name">XNT Vật tư thi công</div><div class="mod-desc">Nhập - Xuất - Tồn theo từng chi nhánh</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Giá vốn & P&L</div><div class="mod-desc">Phân tích lãi/lỗ chi nhánh theo kỳ</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">TC.EMS <span class="pill pill-wip">⏳ Chờ ký HĐ</span></div>
+          <div class="sys-name">Equipment Management System</div>
+          <div class="sys-owner">🏗️ Phòng Kỹ thuật · Quản lý Máy thiết bị (MTB)</div>
+          <ul class="module-list">
+            <li><span class="mod-num">–</span><div><div class="mod-name">XNT Máy thiết bị</div><div class="mod-desc">Điều phối MTB giữa các công trường</div></div></li>
+            <li><span class="mod-num">–</span><div><div class="mod-name">Nhiên liệu & Bảo dưỡng</div><div class="mod-desc">Tracking tiêu thụ, lịch bảo dưỡng định kỳ</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TỔ HỢP 04: LỚP BIÊN -->
+    <div class="section">
+      <div class="group-header purple">
+        <div>
+          <div class="group-label">Tổ hợp 04 · Lớp Biên — Roadmap 2027-2028</div>
+          <div class="group-name">8 Hệ thống Lớp Biên (MMS · PRO · QMS · DMS · OMS · HSE · FIN · SUB)</div>
+        </div>
+      </div>
+      <div class="sys-grid">
+        <div class="sys-card">
+          <div class="sys-code">Mũi 1 · Q2-Q3/2027</div>
+          <div class="sys-name">TC.PRO · TC.QMS · TC.DMS · TC.MMS</div>
+          <div class="sys-owner">Sản lượng · Chất lượng · Tài liệu · Vật tư Chính</div>
+          <ul class="module-list">
+            <li><span class="mod-num">PRO</span><div><div class="mod-name">QL Sản lượng</div><div class="mod-desc">GTKH, Kiểm soát giá vốn dự án, Nghiệm thu</div></div></li>
+            <li><span class="mod-num">QMS</span><div><div class="mod-name">QL Chất lượng</div><div class="mod-desc">Checklist QC, NCR/CAR, Nghiệm thu kỹ thuật</div></div></li>
+            <li><span class="mod-num">MMS</span><div><div class="mod-name">QL Vật tư Chính</div><div class="mod-desc">Kế hoạch VT, Mua hàng, NCC, NXT tổng hợp</div></div></li>
+          </ul>
+        </div>
+        <div class="sys-card">
+          <div class="sys-code">Mũi 2&3 · Q4/2027-Q3/2028</div>
+          <div class="sys-name">TC.OMS · TC.HSE · TC.FIN · TC.SUB</div>
+          <div class="sys-owner">Hành chính · An toàn · Tài chính · Thầu phụ</div>
+          <ul class="module-list">
+            <li><span class="mod-num">OMS</span><div><div class="mod-name">QL Hành chính</div><div class="mod-desc">Công văn, Tài sản cố định, Xe cộ văn phòng</div></div></li>
+            <li><span class="mod-num">HSE</span><div><div class="mod-name">An toàn & Môi trường</div><div class="mod-desc">Sự cố, Vi phạm AT, Đào tạo an toàn, Chứng chỉ</div></div></li>
+            <li><span class="mod-num">SUB</span><div><div class="mod-name">QL Thầu phụ</div><div class="mod-desc">Sản lượng Thầu phụ, Thanh toán PHS</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sf">Application Layer · SA-03 · 14 Hệ thống Nghiệp vụ Trung Chính · VCI Consulting 2026</div>
+  </div>
+</body>
+</html>

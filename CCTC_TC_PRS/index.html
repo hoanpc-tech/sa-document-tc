@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cơ Cấu Tổ Chức — Công Ty Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --tc-blue-deep: #0057A8;
+      --tc-blue-main: #0078D4;
+      --tc-blue-light: #00AEEF;
+      --tc-blue-sky: #E8F4FD;
+      --tc-white: #FFFFFF;
+      --tc-gray-bg: #F2F7FC;
+      --tc-gray-mid: #B0C4D8;
+      --tc-gray-text: #4A6080;
+      --tc-dark: #1A2B42;
+      --tc-success: #1a6b3c;
+      --tc-warning: #c45c2a;
+      --tc-gold: #d4930a;
+      --tc-grad-h: linear-gradient(90deg, #003D7A 0%, #0078D4 55%, #00AEEF 100%);
+      --tc-grad-hero: linear-gradient(135deg, #0057A8 0%, #0091D5 60%, #00AEEF 100%);
+      --tc-shadow: 0 4px 20px rgba(0, 87, 168, 0.10);
+      --tc-shadow-h: 0 8px 32px rgba(0, 87, 168, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--tc-gray-bg);
+      color: var(--tc-dark);
+      min-height: 100vh;
+    }
+
+    /* ── TOP NAV ── */
+    .topbar {
+      background: var(--tc-grad-h);
+      box-shadow: 0 2px 16px rgba(0, 60, 140, .28);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .topbar-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 11px 28px;
+    }
+
+    .topbar-logo {
+      height: 42px;
+      filter: brightness(0) invert(1);
+    }
+
+    .topbar-brand {
+      flex: 1;
+    }
+
+    .topbar-brand .sub {
+      color: rgba(255, 255, 255, .65);
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .topbar-brand .name {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topbar-back {
+      color: rgba(255, 255, 255, .85);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      transition: .2s;
+    }
+
+    .topbar-back:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    /* ── SLIDE SYSTEM ── */
+    .slide {
+      display: none;
+      min-height: calc(100vh - 58px);
+      padding: 32px 32px 100px;
+      animation: fadeIn .35s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .page-wrap {
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+
+    /* ── SLIDE HEADER ── */
+    .slide-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #D5E8F5;
+    }
+
+    .slide-num {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--tc-blue-light);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .slide-h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--tc-blue-deep);
+      line-height: 1.2;
+    }
+
+    .slide-sub {
+      font-size: 13px;
+      color: var(--tc-gray-text);
+      margin-top: 4px;
+    }
+
+    .slide-badge {
+      background: var(--tc-grad-hero);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      box-shadow: var(--tc-shadow);
+      transition: .2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--tc-shadow-h);
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--tc-blue-main);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--tc-gray-text);
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    /* ── ORG TREE ── */
+    .org-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .org-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .conn-v {
+      width: 2px;
+      height: 24px;
+      background: var(--tc-blue-mid);
+      margin: 0 auto;
+    }
+
+    .box {
+      border-radius: 10px;
+      padding: 11px 20px;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: .2s;
+      cursor: default;
+    }
+
+    .box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 87, 168, .15);
+    }
+
+    .box .blabel {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: .7;
+      margin-bottom: 3px;
+    }
+
+    .box .bname {
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .box .bsub {
+      font-size: 10px;
+      opacity: .6;
+      margin-top: 2px;
+    }
+
+    .box-gold {
+      background: linear-gradient(135deg, #E8A820, #F5C842);
+      color: #fff;
+      border-color: #d4930a;
+      box-shadow: 0 4px 16px rgba(212, 147, 10, .25);
+    }
+
+    .box-blue {
+      background: linear-gradient(135deg, #0057A8, #0091D5);
+      color: #fff;
+      border-color: #004a8f;
+    }
+
+    .box-navy {
+      background: linear-gradient(135deg, #1A2B42, #243D5C);
+      color: #fff;
+      border-color: #142330;
+    }
+
+    .box-teal {
+      background: linear-gradient(135deg, #0d6e6e, #1a9a9a);
+      color: #fff;
+      border-color: #0d5858;
+    }
+
+    .box-green {
+      background: linear-gradient(135deg, #1a6b3c, #28a05a);
+      color: #fff;
+      border-color: #145530;
+    }
+
+    .box-orange {
+      background: linear-gradient(135deg, #b04820, #d46030);
+      color: #fff;
+      border-color: #8a3810;
+    }
+
+    /* ── BLOCKS GRID (Slide 1 bottom) ── */
+    .blocks-row {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .block-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--tc-shadow);
+    }
+
+    .block-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--tc-blue-main);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--tc-blue-sky);
+    }
+
+    .dept-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .dept-pill {
+      background: var(--tc-blue-sky);
+      border: 1px solid #BDD9EF;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--tc-blue-deep);
+      transition: .2s;
+    }
+
+    .dept-pill:hover {
+      background: #D0EAF8;
+      border-color: var(--tc-blue-mid);
+    }
+
+    .xwlist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .xw-item {
+      background: linear-gradient(135deg, #e8f7ee, #f4fbf7);
+      border: 1px solid #b8e0c8;
+      border-radius: 8px;
+      padding: 9px 12px;
+    }
+
+    .xw-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--tc-success);
+    }
+
+    .xw-sub {
+      font-size: 10px;
+      color: var(--tc-gray-text);
+      margin-top: 2px;
+    }
+
+    .proj-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .proj-item {
+      background: linear-gradient(135deg, #fff3ee, #fff8f5);
+      border-left: 3px solid var(--tc-warning);
+      border-radius: 0 6px 6px 0;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #7a3010;
+    }
+
+    .proj-more {
+      font-size: 11px;
+      color: var(--tc-gray-text);
+      font-style: italic;
+      padding: 5px 10px;
+    }
+
+    /* ── LEADERSHIP SLIDE ── */
+    .leader-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .leader-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--tc-shadow);
+      transition: .2s;
+    }
+
+    .leader-card:hover {
+      box-shadow: var(--tc-shadow-h);
+      border-color: var(--tc-blue-mid);
+    }
+
+    .lc-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 auto 14px;
+    }
+
+    .lc-role {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--tc-blue-main);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .lc-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--tc-blue-deep);
+      margin-top: 8px;
+      line-height: 1.3;
+    }
+
+    .lc-desc {
+      font-size: 11px;
+      color: var(--tc-gray-text);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .ptgd-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .ptgd-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      box-shadow: var(--tc-shadow);
+      transition: .2s;
+    }
+
+    .ptgd-card:hover {
+      border-color: var(--tc-blue-mid);
+      transform: translateY(-2px);
+    }
+
+    .ptgd-num {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--tc-blue-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .ptgd-ava {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--tc-grad-hero);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 auto 10px;
+    }
+
+    .ptgd-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--tc-blue-deep);
+      line-height: 1.3;
+    }
+
+    .ptgd-note {
+      font-size: 9.5px;
+      color: var(--tc-blue-light);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* ── DEPARTMENTS SLIDE ── */
+    .dept-grid-main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .dept-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--tc-shadow);
+      transition: .2s;
+    }
+
+    .dept-card:hover {
+      border-color: var(--tc-blue-mid);
+      background: var(--tc-blue-sky);
+      transform: translateY(-2px);
+    }
+
+    .dept-num {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--tc-blue-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .dept-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--tc-blue-deep);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .dept-fn {
+      font-size: 11px;
+      color: var(--tc-gray-text);
+      line-height: 1.65;
+    }
+
+    .dept-note {
+      font-size: 10px;
+      color: var(--tc-blue-main);
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .dept-card.special {
+      border-color: var(--tc-gold);
+      background: linear-gradient(135deg, #FFF8E8, #FFF);
+    }
+
+    .dept-card.special .dept-name {
+      color: var(--tc-gold);
+    }
+
+    /* ── PROJECTS SLIDE ── */
+    .proj-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--tc-shadow);
+    }
+
+    .info-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--tc-blue-main);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--tc-blue-sky);
+    }
+
+    .tree-list {
+      list-style: none;
+    }
+
+    .tree-list li {
+      padding: 7px 0;
+      font-size: 12.5px;
+      border-bottom: 1px solid #EEF5FB;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--tc-dark);
+    }
+
+    .tree-list li:last-child {
+      border: none;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--tc-blue-main);
+      flex-shrink: 0;
+    }
+
+    .dot-sm {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--tc-gray-mid);
+      flex-shrink: 0;
+      margin-left: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    table th {
+      background: var(--tc-blue-sky);
+      color: var(--tc-blue-deep);
+      font-weight: 800;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 2px solid #BDD9EF;
+    }
+
+    table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #EEF5FB;
+      color: var(--tc-dark);
+    }
+
+    table tr:hover td {
+      background: var(--tc-blue-sky);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 14px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .badge-hp {
+      background: rgba(0, 120, 212, .12);
+      color: var(--tc-blue-main);
+    }
+
+    .badge-hn {
+      background: rgba(0, 87, 168, .10);
+      color: var(--tc-blue-deep);
+    }
+
+    .badge-hcm {
+      background: rgba(196, 92, 42, .12);
+      color: #9a3a10;
+    }
+
+    .badge-mb {
+      background: rgba(26, 107, 60, .12);
+      color: var(--tc-success);
+    }
+
+    /* ── NAV BAR ── */
+    nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid #BDD9EF;
+      border-radius: 50px;
+      padding: 8px 16px;
+      box-shadow: 0 4px 24px rgba(0, 87, 168, .18);
+      z-index: 300;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--tc-gray-text);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 600;
+      transition: .2s;
+    }
+
+    nav button.active,
+    nav button:hover {
+      background: var(--tc-grad-hero);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .nav-arr {
+      background: none;
+      border: 1px solid #BDD9EF;
+      color: var(--tc-blue-main);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 5px 12px;
+      border-radius: 50%;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .nav-arr:hover {
+      background: var(--tc-blue-sky);
+    }
+
+    /* ── SLIDE FOOTER ── */
+    .sf {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid #D5E8F5;
+      text-align: center;
+      font-size: 10.5px;
+      color: var(--tc-gray-mid);
+    }
+    /* PRS DOC NAV (inside topbar) */
+    .prs-doc-nav { display: flex; gap: 5px; align-items: center; margin-right: 10px; }
+    .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
+    .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
+    .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+  </style>
+</head>
+
+<body>
+  <!-- TOP NAV -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Cơ cấu tổ chức · v1.1 · 2026</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <div class="topbar-right">
+        <div class="prs-doc-nav">
+          <a href="./index.html" class="prs-doc-btn prs-doc-active">PRS·01 · Cơ cấu TC</a>
+          <a href="../SA_3LAYERS_PRS/01_overview/index.html" class="prs-doc-btn">PRS·02 · Kiến trúc SA</a>
+          <a href="../SA_TIMELINE_PRS/01_timeline/index.html" class="prs-doc-btn">PRS·03 · Timeline</a>
+        </div>
+        <a href="../index.html" class="topbar-back">← Về trang chủ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SLIDE 1: TỔNG QUAN ══════════════════ -->
+  <div class="slide active" id="slide-1">
+    <div class="page-wrap">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num">01 / 04 · Tổng quan</div>
+          <div class="slide-h1">Cơ Cấu Tổ Chức Công Ty</div>
+          <div class="slide-sub">Toàn bộ hệ thống tổ chức — Lãnh đạo · Văn phòng · Chi nhánh · Dự án</div>
+        </div>
+        <div class="slide-badge">🏗️ Trung Chính</div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-num">1+1+6</div>
+          <div class="stat-label">Chủ tịch · TGĐ · Phó TGĐ</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏢</div>
+          <div class="stat-num">10</div>
+          <div class="stat-label">Đơn vị Văn phòng</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏭</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Xưởng Sản xuất</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚧</div>
+          <div class="stat-num">15</div>
+          <div class="stat-label">Dự án Đang thi công</div>
+        </div>
+      </div>
+
+      <!-- ORG TREE -->
+      <div class="org-tree" style="margin-bottom:20px;">
+        <!-- L1 -->
+        <div class="org-row">
+          <div class="box box-gold" style="min-width:260px;">
+            <div class="blabel">Chủ tịch Hội đồng Thành viên</div>
+            <div class="bname">HỒ SỸ HÒA</div>
+          </div>
+        </div>
+        <div class="conn-v"></div>
+        <!-- L2 TGĐ -->
+        <div class="org-row">
+          <div class="box box-blue"
+            style="min-width:260px;background:linear-gradient(135deg,#0d7377,#14a085,#1abc9c);border-color:#0d5858;">
+            <div class="blabel">Tổng Giám Đốc</div>
+            <div class="bname">TRẦN QUANG VIỆT</div>
+          </div>
+        </div>
+        <div class="conn-v"></div>
+        <!-- L3 Phó TGĐ -->
+        <div class="org-row" style="gap:8px;flex-wrap:wrap;">
+          <div class="box box-blue" style="min-width:140px;">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ</div>
+            <div class="bname" style="font-size:11px;">TRẦN LƯƠNG CHIẺN</div>
+            <div class="bsub">Đầu tư · HC · NS</div>
+          </div>
+          <div class="box box-blue" style="min-width:140px;">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ</div>
+            <div class="bname" style="font-size:11px;">TRẦN ĐÌNH LÂN</div>
+            <div class="bsub">KH-TT</div>
+          </div>
+          <div class="box box-blue" style="min-width:140px;">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ</div>
+            <div class="bname" style="font-size:11px;">TRẦN NGỌC ANH</div>
+            <div class="bsub">-</div>
+          </div>
+          <div class="box box-blue" style="min-width:140px;">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ</div>
+            <div class="bname" style="font-size:11px;">TRẦN VĂN GIẦU</div>
+            <div class="bsub">Khối Dự án</div>
+          </div>
+          <div class="box box-teal" style="min-width:140px;">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ + GĐ CN</div>
+            <div class="bname" style="font-size:11px;">HỒ VĂN HƯƠNG</div>
+            <div class="bsub">Chi nhánh · Xưởng</div>
+          </div>
+          <div class="box box-blue" style="min-width:140px;background:linear-gradient(135deg,#1a5276,#2980b9);">
+            <div class="blabel" style="font-size:8px;">Phó TGĐ</div>
+            <div class="bname" style="font-size:11px;">NGUYỄN ĐỨC TÚ</div>
+            <div class="bsub">Phòng KT</div>
+          </div>
+        </div>
+        <div class="conn-v"></div>
+      </div>
+
+      <!-- 3 BLOCKS -->
+      <div class="blocks-row" style="grid-template-columns:2fr 0.9fr 0.9fr 0.9fr;">
+        <!-- Văn phòng -->
+        <div class="block-card">
+          <div class="block-title">🏢 Khối Văn Phòng — 9 Phòng Chức Năng</div>
+          <div class="dept-pills">
+            <div class="dept-pill">📋 Phòng Đầu Tư</div>
+            <div class="dept-pill">🏛️ Phòng Hành Chính</div>
+            <div class="dept-pill">👥 Phòng Nhân Sự</div>
+            <div class="dept-pill">📊 Phòng KH-TT</div>
+            <div class="dept-pill">⚙️ Phòng Kỹ Thuật</div>
+            <div class="dept-pill">💰 Phòng TC-KT</div>
+            <div class="dept-pill">📦 Phòng Vật Tư</div>
+            <div class="dept-pill">🦺 Phòng AT-SKMT</div>
+            <div class="dept-pill">🔍 Phòng KSNB</div>
+          </div>
+        </div>
+        <!-- Trung tâm CNC -->
+        <div class="block-card">
+          <div class="block-title">&#128187; Trung Tâm CNC</div>
+          <div style="font-size:11px;color:var(--tc-gray-text);margin-bottom:10px;">GD: <strong
+              style="color:var(--tc-blue-deep);">NGUYỄN VĂN MẠNH</strong></div>
+          <div class="xwlist">
+            <div class="xw-item">
+              <div class="xw-name">&#128187; TT Công Nghệ Cao (CNC)</div>
+              <div class="xw-sub">Nghiên cứu &amp; ứng dụng công nghệ cao</div>
+            </div>
+          </div>
+        </div>
+        <!-- Chi nhánh & xưởng -->
+        <div class="block-card">
+          <div class="block-title">🏭 Chi Nhánh & Xưởng</div>
+          <div style="font-size:11px;color:var(--tc-gray-text);margin-bottom:10px;">GĐ CN: <strong
+              style="color:var(--tc-blue-deep)">HỒ VĂN HƯƠNG</strong></div>
+          <div class="xwlist">
+            <div class="xw-item">
+              <div class="xw-name">🏗️ Xưởng Thái Nguyên</div>
+              <div class="xw-sub">Tỉnh Thái Nguyên</div>
+            </div>
+            <div class="xw-item">
+              <div class="xw-name">🏗️ Xưởng Hưng Hà</div>
+              <div class="xw-sub">Tỉnh Hưng Yên · NGUYỄN ĐỨC MẠNH</div>
+            </div>
+            <div class="xw-item">
+              <div class="xw-name">🏗️ Xưởng Cần Giuộc</div>
+              <div class="xw-sub">Tỉnh Long An · LÊ CÔNG TOÀN</div>
+            </div>
+          </div>
+        </div>
+        <!-- Khối dự án -->
+        <div class="block-card">
+          <div class="block-title">🚧 Khối Dự Án (15 BĐH)</div>
+          <div class="proj-list">
+            <div class="proj-item">Cầu May Chai – Hải Phòng</div>
+            <div class="proj-item">Cầu Phong Châu – Phú Thọ</div>
+            <div class="proj-item">Cầu Nguyễn Trãi – Hải Phòng</div>
+            <div class="proj-item">Vành đai 3.5 & Tứ Liên – HN</div>
+            <div class="proj-item">Cầu Phước An – BRVT</div>
+            <div class="proj-item">XL2 Vành đai 3 – TP.HCM</div>
+            <div class="proj-more">+ 9 dự án trải dài Bắc → Nam...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sf">Công ty Cổ phần Xây dựng Trung Chính &nbsp;·&nbsp; Tài liệu nội bộ &nbsp;·&nbsp; 2026</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SLIDE 2: BAN LÃNH ĐẠO ══════════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="page-wrap">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num">02 / 04 · Lãnh đạo</div>
+          <div class="slide-h1">Ban Lãnh Đạo Cấp Cao</div>
+          <div class="slide-sub">Hội đồng thành viên · Tổng Giám đốc · 6 Phó Tổng Giám đốc</div>
+        </div>
+        <div class="slide-badge">🏙️ Leadership</div>
+      </div>
+
+      <!-- HĐTV + TGĐ -->
+      <div class="leader-grid" style="margin-bottom:28px;">
+        <div class="leader-card" style="border-color:#E8A820;background:linear-gradient(135deg,#FFF8E8,#FFF);">
+          <div class="lc-avatar" style="background:linear-gradient(135deg,#E8A820,#F5C842);">H</div>
+          <div class="lc-role" style="color:var(--tc-gold);">Chủ Tịch Hội Đồng Thành Viên</div>
+          <div class="lc-name">HỒ SỸ HÒA</div>
+          <div class="lc-desc">Điều hành sản xuất trực tiếp · Giám sát toàn bộ chiến lược đầu tư và định hướng phát
+            triển công ty</div>
+        </div>
+        <div class="leader-card">
+          <div class="lc-avatar" style="background:linear-gradient(135deg,#0d7377,#14a085,#1abc9c);">V</div>
+          <div class="lc-role">Tổng Giám Đốc</div>
+          <div class="lc-name">TRẦN QUANG VIỆT</div>
+          <div class="lc-desc">Điều hành hành chính · Pháp lý · Vận hành bộ máy văn phòng và quản lý tổng thể hoạt động
+            công ty</div>
+        </div>
+      </div>
+
+      <!-- PHÓ TGĐ -->
+      <div
+        style="font-size:11px;font-weight:800;color:var(--tc-blue-main);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;padding-left:12px;border-left:3px solid var(--tc-blue-main);">
+        PHÓ TỔNG GIÁM ĐỐC — 6 NGƯỜI
+      </div>
+      <div class="ptgd-grid" style="grid-template-columns:repeat(6,1fr);">
+        <div class="ptgd-card" style="border-color:#BDD9EF;">
+          <div class="ptgd-num">Phó TGĐ · 01</div>
+          <div class="ptgd-ava">C</div>
+          <div class="ptgd-name">TRẦN LƯƠNG CHIẺN</div>
+          <div class="ptgd-note">Đầu tư · HC · Nhân sự</div>
+        </div>
+        <div class="ptgd-card">
+          <div class="ptgd-num">Phó TGĐ · 02</div>
+          <div class="ptgd-ava">L</div>
+          <div class="ptgd-name">TRẦN ĐÌNH LÂN</div>
+          <div class="ptgd-note">KH-TT</div>
+        </div>
+        <div class="ptgd-card">
+          <div class="ptgd-num">Phó TGĐ · 03</div>
+          <div class="ptgd-ava">A</div>
+          <div class="ptgd-name">TRẦN NGỌC ANH</div>
+          <div class="ptgd-note">-</div>
+        </div>
+        <div class="ptgd-card">
+          <div class="ptgd-num">Phó TGĐ · 04</div>
+          <div class="ptgd-ava">G</div>
+          <div class="ptgd-name">TRẦN VĂN GIẦU</div>
+          <div class="ptgd-note">Khối Dự án</div>
+        </div>
+        <div class="ptgd-card" style="border-color:#1a9a9a;background:linear-gradient(135deg,#EBF9F9,#FFF);">
+          <div class="ptgd-num" style="color:#0d8080;">Phó TGĐ · 05 + GĐ CN</div>
+          <div class="ptgd-ava" style="background:linear-gradient(135deg,#0d6e6e,#1a9a9a);">H</div>
+          <div class="ptgd-name" style="color:#0d5858;">HỒ VĂN HƯƠNG</div>
+          <div class="ptgd-note" style="color:#0d8080;">Chi nhánh · Xưởng</div>
+        </div>
+        <div class="ptgd-card" style="border-color:#1a5276;background:linear-gradient(135deg,#EBF5FF,#F0F8FF);">
+          <div class="ptgd-num" style="color:#1a5276;">Phó TGĐ · 06</div>
+          <div class="ptgd-ava" style="background:linear-gradient(135deg,#1a5276,#2980b9);">T</div>
+          <div class="ptgd-name" style="color:#1a3a52;">NGUYỄN ĐỨC TÚ</div>
+          <div class="ptgd-note" style="color:#1a5276;">Phòng KT</div>
+        </div>
+      </div>
+
+      <div class="sf">Mỗi Phó TGĐ phụ trách 1 hoặc nhiều phòng ban &nbsp;·&nbsp; Phân công chi tiết: xác nhận theo quyết
+        định bổ nhiệm hiện hành</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SLIDE 3: PHÒNG BAN ══════════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="page-wrap">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num">03 / 04 · Phòng ban</div>
+          <div class="slide-h1">Khối Văn Phòng — 10 Đơn Vị</div>
+          <div class="slide-sub">9 Phòng chức năng + 1 Trung tâm Công nghệ cao</div>
+        </div>
+        <div class="slide-badge">🏢 Văn phòng</div>
+      </div>
+      <div class="dept-grid-main">
+        <div class="dept-card">
+          <div class="dept-num">PB 01</div>
+          <div class="dept-name">📋 Phòng Đầu Tư</div>
+          <div class="dept-fn">Tìm kiếm cơ hội đấu thầu, lập kế hoạch đầu tư, chuẩn bị hồ sơ dự thầu, làm việc với cơ
+            quan nhà nước.</div>
+          <div class="dept-note">⚠ Không bao gồm quản lý thi công xây lắp</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 02</div>
+          <div class="dept-name">🏛️ Phòng Hành Chính</div>
+          <div class="dept-fn">Hành chính tổng hợp, văn thư lưu trữ, lễ tân, an ninh, xe cộ, PCCC.</div>
+          <div class="dept-note">⚠ Chỉ lưu trữ VB của phòng HC (KSNB quản lý kho lưu trữ toàn CT)</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 03</div>
+          <div class="dept-name">👥 Phòng Nhân Sự</div>
+          <div class="dept-fn">Quản lý hồ sơ NLĐ, khung năng lực, đào tạo, tuyển dụng, hiệu suất, lương & phúc lợi, văn
+            hóa doanh nghiệp.</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 04</div>
+          <div class="dept-name">📊 Phòng Kế Hoạch – Thị Trường</div>
+          <div class="dept-fn">Chiến lược kinh doanh, đấu thầu, quản lý hợp đồng kinh tế, làm giá thầu.</div>
+          <div class="dept-note">⚠ Quản trị chi phí (Cost Control) & luân chuyển tiền của DA</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 05</div>
+          <div class="dept-name">⚙️ Phòng Kỹ Thuật</div>
+          <div class="dept-fn">Quản lý chất lượng & tiến độ thi công dự án giao thông, biện pháp thi công, bóc tách khối
+            lượng.</div>
+          <div class="dept-note">⚠ Cung cấp KLBT cho phòng KH-TT làm giá</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 06</div>
+          <div class="dept-name">💰 Phòng Tài Chính – Kế Toán</div>
+          <div class="dept-fn">Hạch toán kế toán, phân tích tài chính, quyết toán thuế, ghi nhận hoá đơn, quản lý công
+            nợ.</div>
+          <div class="dept-note">⚠ Thu thập chứng từ — không check chi phí chi tiết DA</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 07</div>
+          <div class="dept-name">📦 Phòng Vật Tư</div>
+          <div class="dept-fn">Mua sắm bảo hộ lao động và vật tư chính thi công, cung ứng cho các ban điều hành dự án.
+          </div>
+          <div class="dept-note">⚠ Lo luồng VTC lớn — giảm tải quản lý vật tư vặt cho DA</div>
+        </div>
+        <div class="dept-card">
+          <div class="dept-num">PB 08</div>
+          <div class="dept-name">🦺 Phòng AT-SKMT</div>
+          <div class="dept-fn">Xây dựng hệ thống an toàn, kiểm tra AT-SKMT tại dự án, xử lý sự cố & tai nạn lao động.
+          </div>
+        </div>
+        <div class="dept-card special">
+          <div class="dept-num" style="color:var(--tc-gold);">PB 09</div>
+          <div class="dept-name">🔍 Phòng Kiểm Soát Nội Bộ</div>
+          <div class="dept-fn">Kiểm soát tuân thủ quy trình, xử lý vi phạm, lưu trữ toàn bộ quy trình công ty.</div>
+          <div class="dept-note">⭐ Chủ trì Ban CĐS – kết hợp VCI Consulting</div>
+        </div>
+        <div class="dept-card" style="border-color:var(--tc-blue-mid);background:linear-gradient(135deg,#EBF5FF,#FFF);">
+          <div class="dept-num">TT 01</div>
+          <div class="dept-name">💻 TT Công Nghệ Cao</div>
+          <div class="dept-fn">Nghiên cứu & ứng dụng công nghệ/vật liệu mới phục vụ thi công kỹ thuật cao.</div>
+          <div class="dept-note">GĐ: NGUYỄN VĂN MẠNH</div>
+        </div>
+      </div>
+      <div class="sf">Trung Chính · Khối Văn Phòng · 10 Đơn Vị Chức Năng</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SLIDE 4: DỰ ÁN ══════════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="page-wrap">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num">04 / 04 · Dự án</div>
+          <div class="slide-h1">Khối Dự Án — 15 Ban Điều Hành</div>
+          <div class="slide-sub">Trải dài từ Bắc đến Nam · Cầu, Hầm, Đường cao tốc, Vành đai đô thị</div>
+        </div>
+        <div class="slide-badge">🚧 Khối Dự Án</div>
+      </div>
+
+      <div class="proj-layout">
+        <!-- LEFT: Info -->
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="info-card">
+            <div class="info-title">Cơ Cấu Ban Điều Hành</div>
+            <ul class="tree-list">
+              <li><span class="dot" style="background:var(--tc-gold);"></span><strong>Phó Tổng Giám Đốc</strong> (phụ
+                trách DA)</li>
+              <li><span class="dot" style="background:var(--tc-blue-main);"></span><strong>Giám Đốc Dự Án</strong></li>
+              <li><span class="dot-sm"></span>Cán bộ Kỹ Thuật</li>
+              <li><span class="dot-sm"></span>Cán bộ Kế Hoạch</li>
+              <li><span class="dot-sm"></span>Cán bộ Kế Toán</li>
+              <li><span class="dot" style="background:var(--tc-gray-mid);"></span>Đốc Công</li>
+              <li><span class="dot-sm"></span>Tổ Trưởng</li>
+              <li><span class="dot-sm"></span>Công Nhân</li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <div class="info-title">Nhân Sự Quản Lý Khối DA</div>
+            <ul class="tree-list">
+              <li><span class="dot"></span>NGUYỄN DUY THẮNG</li>
+              <li><span class="dot"></span>TRẦN VĂN GIẦU</li>
+              <li><span class="dot"></span>TRƯƠNG THANH LÂM</li>
+              <li><span class="dot"></span>TRẦN ANH LONG</li>
+              <li><span class="dot"></span>NGUYỄN TIẾN THÀNH</li>
+            </ul>
+          </div>
+          <div class="info-card" style="background:linear-gradient(135deg,#EBF9F9,#FFF);border-color:#1a9a9a;">
+            <div class="info-title" style="color:#0d7070;">Chi Nhánh & Xưởng</div>
+            <div style="font-size:12px;font-weight:700;color:#0d5858;margin-bottom:10px;">GĐ CN: HỒ VĂN HƯƠNG</div>
+            <ul class="tree-list">
+              <li><span class="dot" style="background:#28a05a;"></span>
+                <div><strong>Xưởng Thái Nguyên</strong><br><span style="font-size:10px;color:var(--tc-gray-text);">Tỉnh
+                    Thái Nguyên</span></div>
+              </li>
+              <li><span class="dot" style="background:#28a05a;"></span>
+                <div><strong>Xưởng Hưng Hà</strong><br><span style="font-size:10px;color:var(--tc-gray-text);">Hưng Yên
+                    · NGUYỄN ĐỨC MẠNH</span></div>
+              </li>
+              <li><span class="dot" style="background:#28a05a;"></span>
+                <div><strong>Xưởng Cần Giuộc</strong><br><span style="font-size:10px;color:var(--tc-gray-text);">Long An
+                    · LÊ CÔNG TOÀN</span></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: Table -->
+        <div class="info-card" style="overflow:auto;">
+          <div class="info-title">Danh Sách 15 Dự Án Đang Triển Khai</div>
+          <table style="margin-top:10px;">
+            <tr>
+              <th>STT</th>
+              <th>Tên Dự Án</th>
+              <th>Địa Điểm</th>
+              <th>Trưởng BĐH</th>
+            </tr>
+            <tr>
+              <td>01</td>
+              <td>Cầu May Chai</td>
+              <td><span class="badge badge-hp">Hải Phòng</span></td>
+              <td>HOÀNG VĂN THÁI</td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td>Cầu Phong Châu</td>
+              <td><span class="badge badge-mb">Phú Thọ</span></td>
+              <td>MAI TRUNG KIÊN</td>
+            </tr>
+            <tr>
+              <td>03</td>
+              <td>Cầu Bá Sái</td>
+              <td><span class="badge badge-mb">Lào Cai</span></td>
+              <td>TRẦN HƯNG LAM</td>
+            </tr>
+            <tr>
+              <td>04</td>
+              <td>Cầu Nguyễn Trãi</td>
+              <td><span class="badge badge-hp">Hải Phòng</span></td>
+              <td>NGÔ THẾ HÒA</td>
+            </tr>
+            <tr>
+              <td>05</td>
+              <td>Vành đai 3.5</td>
+              <td><span class="badge badge-hn">Hà Nội</span></td>
+              <td>TRẦN VĂN GIẦU</td>
+            </tr>
+            <tr>
+              <td>06</td>
+              <td>Hàm Thú Thứ</td>
+              <td><span class="badge badge-mb">Hà Nam</span></td>
+              <td>ĐẶNG XUÂN ĐẠI</td>
+            </tr>
+            <tr>
+              <td>07</td>
+              <td>Cầu Tứ Liên</td>
+              <td><span class="badge badge-hn">Hà Nội</span></td>
+              <td>TRẦN VĂN GIẦU</td>
+            </tr>
+            <tr>
+              <td>08</td>
+              <td>Cầu Phước An</td>
+              <td><span class="badge badge-mb">Bà Rịa – VT</span></td>
+              <td>TRẦN HOÀNG ANH</td>
+            </tr>
+            <tr>
+              <td>09</td>
+              <td>XL2 – Vành đai 3</td>
+              <td><span class="badge badge-hcm">TP. HCM</span></td>
+              <td>NGUYỄN XUÂN THẮNG</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Hầm Nguyễn Văn Linh</td>
+              <td><span class="badge badge-hcm">TP. HCM</span></td>
+              <td>NGUYỄN XUÂN THẮNG</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Cầu Long Đại</td>
+              <td><span class="badge badge-mb">Quảng Bình</span></td>
+              <td>THÁI DOÃN ĐẠI</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Cầu Thạch Hãn</td>
+              <td><span class="badge badge-mb">Quảng Trị</span></td>
+              <td>ĐẶNG XUÂN ĐẠI</td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Cầu Nguyễn Hoàng</td>
+              <td><span class="badge badge-mb">TT. Huế</span></td>
+              <td>TRẦN ANH LONG</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Cầu Hòa Sơn</td>
+              <td><span class="badge badge-mb">Hòa Bình</span></td>
+              <td>NGUYỄN ĐÌNH ĐẠI</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>Cầu Rạch Miễu 2</td>
+              <td><span class="badge badge-hcm">Tiền Giang</span></td>
+              <td>LÊ NGỌC ANH</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="sf">Tổng: 15 Ban Điều Hành Dự Án &nbsp;·&nbsp; Trải dài từ Bắc đến Nam &nbsp;·&nbsp; Trung Chính ·
+        2026</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <button class="nav-arr" onclick="changeSlide(-1)">←</button>
+    <button class="active" onclick="goTo(1)">01 Tổng quan</button>
+    <button onclick="goTo(2)">02 Lãnh đạo</button>
+    <button onclick="goTo(3)">03 Phòng ban</button>
+    <button onclick="goTo(4)">04 Dự án</button>
+    <button class="nav-arr" onclick="changeSlide(1)">→</button>
+  </nav>
+
+  <script>
+    let cur = 1, total = 4;
+    function goTo(n) {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('nav button:not(.nav-arr)').forEach(b => b.classList.remove('active'));
+      document.getElementById('slide-' + n).classList.add('active');
+      document.querySelectorAll('nav button:not(.nav-arr)')[n - 1].classList.add('active');
+      cur = n; window.scrollTo(0, 0);
+    }
+    function changeSlide(d) { let n = cur + d; if (n < 1) n = total; if (n > total) n = 1; goTo(n); }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·02 — Data Layer · Data Lake & Data Warehouse Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--teal:#0d6e6e;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#E8F7EE,#F4FBF7);border:2px solid var(--success);border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--success);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;max-width:680px;}
+    .hero-badge{background:linear-gradient(135deg,#1a6b3c,#28a05a);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:20px;font-weight:800;color:var(--b-main);line-height:1.2;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* FLOW DIAGRAM */
+    .flow-wrap{background:#fff;border:1px solid #D5E8F5;border-radius:14px;padding:24px;box-shadow:var(--shadow);margin-bottom:24px;}
+    .flow-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+    .flow-box{background:var(--b-sky);border:1px solid #BDD9EF;border-radius:8px;padding:8px 14px;font-size:11.5px;font-weight:700;color:var(--b-deep);}
+    .flow-box.source{background:rgba(40,167,69,.1);border-color:rgba(40,167,69,.25);color:#1a6b3c;}
+    .flow-arrow-h{font-size:18px;color:var(--b-main);display:flex;align-items:center;}
+    .flow-center{display:flex;align-items:center;gap:12px;margin:12px 0;}
+    .flow-node{background:var(--grad-hero);color:#fff;border-radius:12px;padding:14px 20px;text-align:center;}
+    .flow-node-lbl{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:.8;margin-bottom:4px;}
+    .flow-node-name{font-size:14px;font-weight:800;}
+    .flow-node-sub{font-size:10px;opacity:.75;margin-top:2px;}
+    .flow-node.dwhnode{background:linear-gradient(135deg,#0d6e6e,#1a9a9a);}
+    /* DOMAIN TABLE */
+    table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+    th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    td{padding:10px 14px;border-bottom:1px solid #EEF5FB;font-size:12px;}
+    tr:hover td{background:var(--b-sky);}
+    /* 2 COL */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+    .card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:20px;box-shadow:var(--shadow);}
+    .card-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--b-sky);}
+    .card-items{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .card-items li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--dark);}
+    .card-items li::before{content:"→";color:var(--b-main);font-weight:800;flex-shrink:0;}
+    .alert{background:linear-gradient(135deg,#FFF8EE,#FFFDF5);border:1px solid rgba(224,112,64,.25);border-left:4px solid var(--warning);border-radius:8px;padding:14px 18px;font-size:12px;color:var(--dark);margin-bottom:20px;line-height:1.7;}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-02 · Data Layer — Tầng 2</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 02 · Data Layer — Tầng 2</div>
+        <div class="hero-h1">Data Lake & Data Warehouse — Tim của Hệ thống</div>
+        <div class="hero-sub">Tầng trung gian thu gom, tổ chức và làm sạch toàn bộ dữ liệu từ 14 hệ thống nghiệp vụ. Nền tảng cho Tầng 1 (Dashboard & AI) hoạt động. Bao gồm cơ chế Offline Sync cho công trường mất sóng.</div>
+      </div>
+      <div class="hero-badge">🗄️ Data Layer</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">🏭</div><div class="stat-num">14</div><div class="stat-lbl">Nguồn dữ liệu đầu vào</div></div>
+      <div class="stat"><div class="stat-icon">🗄️</div><div class="stat-num">2</div><div class="stat-lbl">Lớp lưu trữ (DLK + DWH)</div></div>
+      <div class="stat"><div class="stat-icon">📊</div><div class="stat-num">7</div><div class="stat-lbl">Data Domains</div></div>
+      <div class="stat"><div class="stat-icon">🔄</div><div class="stat-num">Real-time</div><div class="stat-lbl">ETL Pipeline</div></div>
+    </div>
+
+    <!-- DATA FLOW -->
+    <div class="section">
+      <div class="sec-title">Luồng Dữ liệu — ETL Pipeline</div>
+      <div class="flow-wrap">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-txt);margin-bottom:12px;">📤 NGUỒN DỮ LIỆU — 14 Hệ thống Tầng 3 (push data lên)</div>
+        <div class="flow-row">
+          <span class="flow-box source">TC.CMS → Tiến độ, Nhật ký CT, Chấm công</span>
+          <span class="flow-box source">TC.IMS → XNT VTTC, Giá vốn, P&L Chi nhánh</span>
+          <span class="flow-box source">TC.EMS → XNT MTB, Nhiên liệu, Bảo dưỡng</span>
+          <span class="flow-box source">TC.PRO → Sản lượng, GTKH, Giá vốn DA</span>
+          <span class="flow-box source">TC.MMS → NXT VTC, Công nợ NCC</span>
+          <span class="flow-box source">TC.FIN → Hóa đơn, AP/AR, BCTC</span>
+          <span class="flow-box source">TC.HRM → Nhân sự, Lương, Chấm công HQ</span>
+          <span class="flow-box source">TC.HSE → Sự cố, Vi phạm AT, Chứng chỉ</span>
+          <span class="flow-box source">+ 6 HT còn lại...</span>
+        </div>
+        <div style="text-align:center;font-size:24px;color:var(--b-main);margin:10px 0;">↓ ETL Pipeline (Real-time / Batch)</div>
+        <div class="flow-center">
+          <div class="flow-node" style="flex:1;">
+            <div class="flow-node-lbl">Lớp 1</div>
+            <div class="flow-node-name">TC.DLK — Data Lake</div>
+            <div class="flow-node-sub">Lưu dữ liệu thô · Không xóa · Có timestamp mọi event</div>
+          </div>
+          <div style="font-size:28px;color:var(--b-main)">→</div>
+          <div style="font-size:24px;text-align:center;color:var(--gray-txt);min-width:120px;"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Transform & Clean</div></div>
+          <div style="font-size:28px;color:var(--teal)">→</div>
+          <div class="flow-node dwhnode" style="flex:1;">
+            <div class="flow-node-lbl">Lớp 2</div>
+            <div class="flow-node-name">TC.DWH — Data Warehouse</div>
+            <div class="flow-node-sub">Data sạch · Chuẩn hóa · Theo Chiều (Dim Tables)</div>
+          </div>
+        </div>
+        <div style="text-align:center;font-size:24px;color:var(--b-main);margin:10px 0;">↑ Tầng 1 (TC.BI + TC.AI + TC.NCS) đọc từ đây</div>
+      </div>
+    </div>
+
+    <!-- DATA DOMAINS -->
+    <div class="section">
+      <div class="sec-title">7 Data Domains tại TC.DWH</div>
+      <table>
+        <thead><tr><th>Domain</th><th>Nguồn dữ liệu chính</th><th>Phục vụ phân tích</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Project Domain</strong></td><td>TC.CMS, TC.PRO</td><td>Tiến độ thực tế vs KH, % hoàn thành theo hạng mục</td></tr>
+          <tr><td><strong>Cost Domain</strong></td><td>TC.PRO, TC.FIN, TC.IMS, TC.EMS</td><td>Giá vốn thực tế vs GTKH, hao hụt theo loại</td></tr>
+          <tr><td><strong>Material Domain</strong></td><td>TC.MMS, TC.IMS</td><td>Tồn kho tổng, luân chuyển, hiệu suất kho</td></tr>
+          <tr><td><strong>Equipment Domain</strong></td><td>TC.EMS</td><td>Hiệu suất sử dụng MTB, OPEX máy móc theo DA</td></tr>
+          <tr><td><strong>HR Domain</strong></td><td>TC.HRM, TC.CMS</td><td>Nhân lực triển khai, năng suất lao động</td></tr>
+          <tr><td><strong>Finance Domain</strong></td><td>TC.FIN, TC.PRO</td><td>Dòng tiền, công nợ, cashflow dự báo</td></tr>
+          <tr><td><strong>Safety Domain</strong></td><td>TC.HSE</td><td>Tần suất sự cố, KPI tuân thủ an toàn</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 2 COLS: DLK vs DWH + OFFLINE SYNC -->
+    <div class="two-col section">
+      <div class="card">
+        <div class="card-title">🏭 TC.DLK — Raw Data Lake</div>
+        <ul class="card-items">
+          <li>Lưu toàn bộ data thô — không xóa, không sửa</li>
+          <li>Timestamp tất cả mọi sự kiện giao dịch</li>
+          <li>Là nguồn "sự thật lịch sử" bất biến</li>
+          <li>Schema-on-Read — linh hoạt với dữ liệu mới</li>
+          <li>Phục vụ ML Training và Ad-hoc Analysis</li>
+          <li>Lưu trữ log, audit trail, file media</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 TC.DWH — Data Warehouse</div>
+        <ul class="card-items">
+          <li>Data sạch, chuẩn hóa sau ETL pipeline</li>
+          <li>Mô hình Chiều (Dimensional Modeling)</li>
+          <li>Dim Tables: Project, Time, Material, Employee...</li>
+          <li>Fact Tables: Production, Cost, Inventory, Safety</li>
+          <li>Tối ưu hiệu suất truy vấn phức tạp</li>
+          <li>Nguồn dữ liệu duy nhất cho Tầng 1 (BI/AI)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert">⚠️ <strong>Đặc thù Ngành Xây dựng — Offline Sync:</strong> Công trường thường xuyên mất sóng. TC.CMS phải có cơ chế: (1) <strong>Local Buffer</strong> — App ghi tạm vào IndexedDB/SQLite khi mất mạng; (2) <strong>Background Sync</strong> — Khi có mạng, tự đẩy toàn bộ batch lên Data Lake; (3) <strong>Conflict Resolution</strong> — Xử lý xung đột nếu cùng bản ghi được sửa ở cả online lẫn offline.</div>
+
+    <div class="sf">Data Layer · SA-02 · Data Lake & Data Warehouse · Trung Chính 2025–2028 · VCI Consulting</div>
+  </div>
+</body>
+</html>

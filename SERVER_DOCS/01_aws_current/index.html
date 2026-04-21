@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRV·01 — AWS Production Hiện trạng · Trung Chính Cloud Infrastructure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--danger:#DC3545;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#FFF8EE,#FFFDF5);border:2px solid var(--warning);border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--warning);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;}
+    .hero-badge{background:linear-gradient(135deg,#c45c2a,#e07040);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:20px;font-weight:800;color:var(--b-main);line-height:1.2;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+    th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    td{padding:10px 14px;border-bottom:1px solid #EEF5FB;font-size:12px;}
+    tr:hover td{background:var(--b-sky);}
+    tr.total td{font-weight:800;background:#EBF5FF;}
+    .cost{text-align:right;font-weight:700;}
+    /* SERVICE GROUPS */
+    .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;}
+    .svc-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;box-shadow:var(--shadow);}
+    .svc-label{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--b-light);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--b-sky);}
+    .svc-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #F0F6FC;font-size:12px;}
+    .svc-row:last-child{border:none;}
+    .svc-name{font-weight:600;}
+    .svc-note{font-size:11px;color:var(--gray-txt);margin-top:2px;}
+    .svc-price{font-weight:700;color:var(--b-main);white-space:nowrap;margin-left:12px;}
+    /* COST BAR */
+    .cost-item{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+    .cost-bar-wrap{flex:1;background:#EEF5FB;border-radius:4px;height:18px;overflow:hidden;}
+    .cost-bar-fill{height:100%;background:var(--grad-hero);border-radius:4px;display:flex;align-items:center;padding:0 8px;}
+    .cost-bar-lbl{font-size:10px;font-weight:700;color:#fff;white-space:nowrap;}
+    .cost-item-name{min-width:140px;font-size:11px;font-weight:700;}
+    .cost-item-val{min-width:50px;text-align:right;font-size:11px;font-weight:700;color:var(--b-main);}
+    .alert{background:#EBF5FF;border:1px solid #BDD9EF;border-left:4px solid var(--b-main);border-radius:8px;padding:14px 18px;font-size:12px;color:var(--dark);margin-bottom:16px;line-height:1.7;}
+    .alert strong{color:var(--b-deep);}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Hạ tầng & Server · SRV-01 · AWS Production Hiện trạng</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SRV · 01 · AWS Production · 🟢 Đang chạy</div>
+        <div class="hero-h1">AWS Cloud Infrastructure — Hiện trạng Production</div>
+        <div class="hero-sub">Kiến trúc Container-based trên AWS Managed Services đang vận hành TC.HRM + TC.WMS. Chi phí tháng 02/2026: <strong>$872.22/tháng</strong> (~22 triệu VNĐ).</div>
+      </div>
+      <div class="hero-badge">☁️ AWS LIVE</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">🟢</div><div class="stat-num">2 HT</div><div class="stat-lbl">TC.HRM + TC.WMS Production</div></div>
+      <div class="stat"><div class="stat-icon">💵</div><div class="stat-num">$872/th</div><div class="stat-lbl">Chi phí AWS T2/2026</div></div>
+      <div class="stat"><div class="stat-icon">⏰</div><div class="stat-num">99.99%</div><div class="stat-lbl">Uptime SLA</div></div>
+      <div class="stat"><div class="stat-icon">📦</div><div class="stat-num">17</div><div class="stat-lbl">S3 Buckets lưu trữ</div></div>
+    </div>
+
+    <!-- PHÂN TÍCH CHI PHÍ -->
+    <div class="section">
+      <div class="sec-title">Phân tích Chi phí Tháng 02/2026</div>
+      <div class="cost-item"><span class="cost-item-name">EKS Cluster (~45%)</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:45%;"><span class="cost-bar-lbl">$393</span></div></div><span class="cost-item-val">$393</span></div>
+      <div class="cost-item"><span class="cost-item-name">VPC/NAT Gateway (~18%)</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:18%;background:linear-gradient(90deg,#0057A8,#0078D4);"><span class="cost-bar-lbl">$157</span></div></div><span class="cost-item-val">$157</span></div>
+      <div class="cost-item"><span class="cost-item-name">RDS Database (~11%)</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:11%;background:linear-gradient(90deg,#0d6e6e,#1a9a9a);"><span class="cost-bar-lbl">$93</span></div></div><span class="cost-item-val">$93</span></div>
+      <div class="cost-item"><span class="cost-item-name">Tax AWS (~9%)</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:9%;background:linear-gradient(90deg,#6a3fa6,#9b6fd4);"><span class="cost-bar-lbl">$79</span></div></div><span class="cost-item-val">$79</span></div>
+      <div class="cost-item"><span class="cost-item-name">EC2 Instances (~7%)</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:7%;background:linear-gradient(90deg,#c45c2a,#e07040);"><span class="cost-bar-lbl">$62</span></div></div><span class="cost-item-val">$62</span></div>
+      <div class="cost-item"><span class="cost-item-name">EC2-Other + CloudWatch</span><div class="cost-bar-wrap"><div class="cost-bar-fill" style="width:8%;background:#B0C4D8;"><span class="cost-bar-lbl">$66</span></div></div><span class="cost-item-val">$66</span></div>
+      <br>
+      <table>
+        <thead><tr><th>Nhóm</th><th>Dịch vụ</th><th class="cost">USD</th></tr></thead>
+        <tbody>
+          <tr><td>Compute</td><td>EKS + EC2 + ELB</td><td class="cost">519.16</td></tr>
+          <tr><td>Networking</td><td>VPC (NAT Gateway chính)</td><td class="cost">156.53</td></tr>
+          <tr><td>Database</td><td>RDS PostgreSQL/MySQL</td><td class="cost">93.05</td></tr>
+          <tr><td>Tax</td><td>AWS Tax</td><td class="cost">79.32</td></tr>
+          <tr><td>Security</td><td>KMS + Secrets Manager</td><td class="cost">2.71</td></tr>
+          <tr><td>Monitoring</td><td>CloudWatch</td><td class="cost">21.45</td></tr>
+          <tr><td>Storage/Others</td><td>S3, ECR, WAF, SES, SNS, Lambda...</td><td class="cost">~0.00</td></tr>
+          <tr class="total"><td colspan="2"><strong>TỔNG BILL THÁNG 02/2026</strong></td><td class="cost"><strong>$872.22</strong><br><small style="font-size:10px;font-weight:500;">~22.242.000 VNĐ</small></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DỊCH VỤ ĐANG DÙNG -->
+    <div class="section">
+      <div class="sec-title">Chi tiết Dịch vụ AWS Đang Sử dụng</div>
+      <div class="svc-grid">
+        <div class="svc-card">
+          <div class="svc-label">⚡ Compute & Container</div>
+          <div class="svc-row"><div><div class="svc-name">EKS — Elastic Kubernetes Service</div><div class="svc-note">Cluster điều phối toàn bộ TC.HRM + TC.WMS</div></div><span class="svc-price">$393/th</span></div>
+          <div class="svc-row"><div><div class="svc-name">EC2 Instances</div><div class="svc-note">2× t3.medium + 1× t2.micro Bastion</div></div><span class="svc-price">$62/th</span></div>
+          <div class="svc-row"><div><div class="svc-name">Application Load Balancer</div><div class="svc-note">Phân phối traffic vào EKS pods</div></div><span class="svc-price">$19/th</span></div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-label">🗄️ Database & Storage</div>
+          <div class="svc-row"><div><div class="svc-name">RDS — Multi-AZ</div><div class="svc-note">PostgreSQL/MySQL cho TC.HRM + TC.WMS</div></div><span class="svc-price">$93/th</span></div>
+          <div class="svc-row"><div><div class="svc-name">S3 — 17 Buckets</div><div class="svc-note">File media, backup, static assets</div></div><span class="svc-price">~$0</span></div>
+          <div class="svc-row"><div><div class="svc-name">ECR — Container Registry</div><div class="svc-note">Lưu Docker images các service</div></div><span class="svc-price">~$0</span></div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-label">🔒 Networking & Security</div>
+          <div class="svc-row"><div><div class="svc-name">VPC (172.30.0.0/16)</div><div class="svc-note">spokc-app-prod-vpc — NAT Gateway chính</div></div><span class="svc-price">$157/th</span></div>
+          <div class="svc-row"><div><div class="svc-name">WAF + KMS</div><div class="svc-note">Web Application Firewall + mã hóa dữ liệu</div></div><span class="svc-price">$3/th</span></div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-label">🚀 Đã Setup — Chưa kích hoạt</div>
+          <div class="svc-row"><div><div class="svc-name">AWS Glue</div><div class="svc-note">ETL Pipeline → Data Lake (kích hoạt Phase 4)</div></div><span class="svc-price">~$0</span></div>
+          <div class="svc-row"><div><div class="svc-name">SQS, Lambda, Step Functions</div><div class="svc-note">Queue, Serverless, Workflow (cho TC.CMS)</div></div><span class="svc-price">~$0</span></div>
+          <div class="svc-row"><div><div class="svc-name">SNS, SES, Location Service</div><div class="svc-note">Notification, Email, Bản đồ công trường</div></div><span class="svc-price">~$0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert"><strong>📈 Dự báo khi Scale:</strong> Mỗi hệ thống thêm vào tăng trung bình ~$200–350/tháng. Tại 12–14 hệ thống (Bill ~$4.000–5.000/th) → Khuyến nghị chuyển sang Data Center để tối ưu chi phí dài hạn. Xem chi tiết: <a href="../SA_DOCS/04_infra_plan/index.html" style="color:var(--b-main);font-weight:700;">SA·04 Infrastructure Roadmap</a></div>
+
+    <div class="sf">AWS Production Current · SRV-01 · Trung Chính Cloud Infrastructure · Cập nhật T2/2026 · VCI Consulting</div>
+  </div>
+</body>
+</html>

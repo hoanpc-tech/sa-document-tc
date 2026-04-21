@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·04 — Infrastructure Roadmap · Cloud AWS → Hybrid DC · Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--danger:#DC3545;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#EBF4FD,#F5F9FF);border:1px solid #BDD9EF;border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--b-light);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;}
+    .hero-badge{background:var(--grad-hero);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:18px;font-weight:800;color:var(--b-main);line-height:1.2;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* PHASE COLS */
+    .phase-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+    .phase-box{border-radius:14px;padding:24px;}
+    .phase-box.cloud{background:linear-gradient(135deg,#FFF8EE,#FFFDF5);border:2px solid var(--warning);}
+    .phase-box.dc{background:linear-gradient(135deg,#EBF4FD,#F2F9FF);border:2px solid var(--b-main);}
+    .phase-label{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+    .cloud .phase-label{color:var(--warning);}
+    .dc .phase-label{color:var(--b-main);}
+    .phase-title{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:12px;}
+    .phase-items{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .phase-items li{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--dark);}
+    .phase-items li::before{content:"•";font-weight:800;flex-shrink:0;margin-top:1px;}
+    .cloud .phase-items li::before{color:var(--warning);}
+    .dc .phase-items li::before{color:var(--b-main);}
+    /* TABLE */
+    table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+    th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    td{padding:10px 14px;border-bottom:1px solid #EEF5FB;font-size:12px;}
+    tr:hover td{background:var(--b-sky);}
+    tr.total td{font-weight:800;background:#EBF5FF;}
+    /* HARDWARE CARDS */
+    .hw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+    .hw-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:16px;box-shadow:var(--shadow);}
+    .hw-icon{font-size:28px;margin-bottom:8px;}
+    .hw-title{font-size:13px;font-weight:800;color:var(--b-deep);margin-bottom:6px;}
+    .hw-spec{font-size:11px;color:var(--gray-txt);line-height:1.6;}
+    .hw-price{font-size:12px;font-weight:700;color:var(--b-main);margin-top:8px;padding-top:8px;border-top:1px solid #EEF5FB;}
+    /* ALERT BOX */
+    .alert{background:#EBF5FF;border:1px solid #BDD9EF;border-left:4px solid var(--b-main);border-radius:8px;padding:14px 18px;font-size:12px;color:var(--dark);margin-bottom:20px;line-height:1.7;}
+    .alert strong{color:var(--b-deep);}
+    .alert.warning{background:#FFF8EE;border-color:#F0C080;border-left-color:var(--warning);color:#7a4010;}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-04 · Infrastructure Roadmap</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 04 · Infrastructure Roadmap</div>
+        <div class="hero-h1">Lộ trình Hạ tầng: Cloud AWS → Hybrid Data Center</div>
+        <div class="hero-sub">Chiến lược 2 giai đoạn: Bắt đầu với Cloud AWS linh hoạt → Chuyển sang Data Center khi đạt ngưỡng hoà vốn ~$4.000–5.000/tháng. Tiết kiệm ~4,5 tỷ so với thuần AWS.</div>
+      </div>
+      <div class="hero-badge">🖥️ Infrastructure</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">☁️</div><div class="stat-num">~$872/th<br><small style="font-size:11px;font-weight:600;">hiện tại</small></div><div class="stat-lbl">Chi phí AWS (2 HT)</div></div>
+      <div class="stat"><div class="stat-icon">📍</div><div class="stat-num">~$4–5K/th</div><div class="stat-lbl">Ngưỡng chuyển sang DC</div></div>
+      <div class="stat"><div class="stat-icon">🏢</div><div class="stat-num">~3,53 tỷ</div><div class="stat-lbl">CAPEX Thiết bị DC</div></div>
+      <div class="stat"><div class="stat-icon">💰</div><div class="stat-num">~4,5 tỷ</div><div class="stat-lbl">Tiết kiệm 5 năm (vs AWS)</div></div>
+    </div>
+
+    <!-- 2 PHASES -->
+    <div class="section">
+      <div class="sec-title">Chiến lược 2 Giai đoạn</div>
+      <div class="phase-cols">
+        <div class="phase-box cloud">
+          <div class="phase-label">☁️ Giai đoạn 1 — Năm 1→2 (2025–2027)</div>
+          <div class="phase-title">Cloud First — AWS 100%</div>
+          <ul class="phase-items">
+            <li>Hiện tại: 2 hệ thống, ~$872/tháng (~22 triệu VNĐ)</li>
+            <li>Scale dần theo Roadmap: +~$200–350/HT mỗi khi thêm mới</li>
+            <li>Không CAPEX ban đầu — tập trung vốn vào phần mềm</li>
+            <li>Uptime 99.99% SLA — cao nhất có thể đạt</li>
+            <li>Auto-scaling linh hoạt — thêm hệ thống trong 1–2 tuần</li>
+            <li>Dọc theo Roadmap: Phase 1 (~$1.400) → Phase 2 (~$2.500) → Phase 3 (~$3.500) → Phase 4 (~$5.000)</li>
+          </ul>
+        </div>
+        <div class="phase-box dc">
+          <div class="phase-label">🏢 Giai đoạn 2 — Năm 3+ (2028+)</div>
+          <div class="phase-title">Hybrid DC + Cloud (Thu gọn)</div>
+          <ul class="phase-items">
+            <li>14 hệ thống chạy trên DC Hà Nội — chi phí ~20 triệu/tháng</li>
+            <li>AWS thu gọn chỉ còn: CloudFront CDN, SageMaker AI, S3 Archive</li>
+            <li>AWS thu gọn: ~$400–600/tháng (giảm từ ~$5.000)</li>
+            <li>Local Backup: NAS tại VP (~1 tỷ VNĐ) — dự phòng & offline</li>
+            <li>Migration: Blue-Green deployment — không downtime</li>
+            <li>Sở hữu hạ tầng, kiểm soát dữ liệu hoàn toàn trong nước</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COST FORECAST TABLE -->
+    <div class="section">
+      <div class="sec-title">Dự báo Chi phí AWS khi Scale thêm Hệ thống</div>
+      <table>
+        <thead>
+          <tr><th>Giai đoạn</th><th>Số Hệ thống</th><th>Chi phí/tháng (USD)</th><th>Chi phí/tháng (VNĐ)</th><th>Ghi chú</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Hiện tại</strong></td><td>2</td><td>~$872</td><td>~22 triệu</td><td>TC.HRM + TC.WMS</td></tr>
+          <tr><td>Phase 1</td><td>4–5</td><td>~$1.400–1.600</td><td>~36–41 triệu</td><td>+TC.CMS, TC.IMS, TC.EMS</td></tr>
+          <tr><td>Phase 2</td><td>7–8</td><td>~$2.000–2.500</td><td>~51–64 triệu</td><td>+TC.MMS, TC.FIN, TC.PRO</td></tr>
+          <tr><td>Phase 3</td><td>10–11</td><td>~$2.800–3.500</td><td>~71–89 triệu</td><td>+Back-office còn lại</td></tr>
+          <tr class="total"><td>📍 Điểm chuyển GĐ</td><td>~12–14</td><td><strong>~$4.000–5.000</strong></td><td><strong>~102–128 triệu</strong></td><td>→ Chuyển sang DC</td></tr>
+        </tbody>
+      </table>
+      <div class="alert warning">⚠️ <strong>Điểm hòa vốn DC:</strong> ~18–24 tháng sau khi đầu tư CAPEX (~3,53 tỷ). Sau đó mỗi tháng tiết kiệm ~$3.500–4.500 so với tiếp tục dùng AWS thuần túy.</div>
+    </div>
+
+    <!-- HARDWARE -->
+    <div class="section">
+      <div class="sec-title">Cấu hình Thiết bị Data Center — Chi tiết</div>
+      <div class="hw-grid">
+        <div class="hw-card">
+          <div class="hw-icon">🖥️</div>
+          <div class="hw-title">Server (×3 Nodes)</div>
+          <div class="hw-spec"><strong>H3C UniServer R4700 G6 (1U)</strong><br>CPU: 2× Intel Xeon Gold 6526Y (32 Core/node)<br>RAM: 256GB ECC DDR5/node<br>Nguồn: Dual PSU 1.300W dự phòng<br>Cluster VMware HA (High Availability)</div>
+          <div class="hw-price">Tổng 3 nodes: ~2.278.720.824 VNĐ</div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-icon">💾</div>
+          <div class="hw-title">Ảo hóa & NAS Lưu trữ</div>
+          <div class="hw-spec"><strong>VMware vSphere Foundation</strong> (96 Core, 1 năm)<br>HA Cluster — tự động migrate VM khi node lỗi<br><hr style="margin:8px 0;border-color:#EEF5FB;"><strong>NAS Synology RS2423+</strong><br>~12TB HDD khả dụng (RAID 5)<br>10GbE network interface</div>
+          <div class="hw-price">VMware: 839.520.000 · NAS: ~200.000.000</div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-icon">🔒</div>
+          <div class="hw-title">Network & Security</div>
+          <div class="hw-spec"><strong>Firewall FortiGate 60F</strong> (×2)<br>Active-Passive HA — FortiCare + UTP 1 năm<br><hr style="margin:8px 0;border-color:#EEF5FB;"><strong>Core Switch Maipu NSS5812-28MXT</strong> (×2)<br>L3 Stackable — 10GbE uplink<br>Băng thông: 1Gbps nội địa + 20Mbps quốc tế</div>
+          <div class="hw-price">FortiGate: 63.000.000 · Maipu: 149.700.000</div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Hạng mục</th><th>Chi tiết</th><th>Chi phí (VNĐ)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Server (×3)</strong></td><td>H3C UniServer R4700 G6</td><td>2.278.720.824</td></tr>
+          <tr><td><strong>Ảo hóa</strong></td><td>VMware vSphere Foundation 96 Core</td><td>839.520.000</td></tr>
+          <tr><td><strong>NAS</strong></td><td>Synology RS2423+ (~12TB)</td><td>~200.000.000</td></tr>
+          <tr><td><strong>Firewall</strong></td><td>FortiGate 60F ×2 HA</td><td>63.000.000</td></tr>
+          <tr><td><strong>Core Switch</strong></td><td>Maipu NSS5812 L3 Stack ×2</td><td>149.700.000</td></tr>
+          <tr class="total"><td colspan="2"><strong>TỔNG CAPEX THIẾT BỊ</strong></td><td><strong>~3.531.000.000</strong></td></tr>
+          <tr><td colspan="2">+ Thuê rack DC + Băng thông/tháng</td><td>~19.989.000/tháng</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert">📋 <strong>Kế hoạch Migration:</strong> Áp dụng Blue-Green Strategy — Chạy song song DC (Shadow) 2 tuần → Chuyển dần traffic 10%→30%→50%→100% → AWS standby 48h → Cut-over hoàn tất. <strong>Không downtime với người dùng.</strong></div>
+
+    <div class="sf">Infrastructure Roadmap · SA-04 · Cloud AWS → Hybrid DC · Trung Chính 2025–2028 · VCI Consulting</div>
+  </div>
+</body>
+</html>

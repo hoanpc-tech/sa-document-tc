@@ -1,0 +1,1600 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiến Trúc 3 Tầng CĐS — Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --b-deep: #0057A8;
+      --b-main: #0078D4;
+      --b-mid: #1E90FF;
+      --b-light: #00AEEF;
+      --b-sky: #E8F4FD;
+      --white: #FFFFFF;
+      --gray-bg: #F2F7FC;
+      --gray-mid: #B0C4D8;
+      --gray-txt: #4A6080;
+      --dark: #1A2B42;
+      --success: #1a6b3c;
+      --warning: #c45c2a;
+      --gold: #d4930a;
+      --teal: #0d6e6e;
+      --purple: #6a3fa6;
+      --grad-h: linear-gradient(90deg, #003D7A 0%, #0078D4 55%, #00AEEF 100%);
+      --grad-hero: linear-gradient(135deg, #0057A8 0%, #0091D5 60%, #00AEEF 100%);
+      --grad-data: linear-gradient(135deg, #0d6e6e 0%, #1a9a9a 100%);
+      --grad-ai: linear-gradient(135deg, #6a3fa6 0%, #9b6fd4 100%);
+      --grad-infra: linear-gradient(135deg, #c45c2a 0%, #e07040 100%);
+      --shadow: 0 4px 20px rgba(0, 87, 168, .10);
+      --shadow-h: 0 10px 36px rgba(0, 87, 168, .20);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--gray-bg);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: var(--grad-h);
+      box-shadow: 0 2px 16px rgba(0, 60, 140, .28);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 11px 28px;
+    }
+
+    .topbar-logo {
+      height: 42px;
+      filter: brightness(0) invert(1);
+    }
+
+    .topbar-brand .sub {
+      color: rgba(255, 255, 255, .65);
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .topbar-brand .name {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topbar-back {
+      color: rgba(255, 255, 255, .85);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      transition: .2s;
+    }
+
+    .topbar-back:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    /* SLIDES */
+    .slide {
+      display: none;
+      min-height: calc(100vh - 58px);
+      padding: 28px 28px 110px;
+      animation: fi .35s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fi {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .pw {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    /* SLIDE HEADER */
+    .sh {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #D5E8F5;
+    }
+
+    .sh-num {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .sh-h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--b-deep);
+      line-height: 1.2;
+    }
+
+    .sh-sub {
+      font-size: 12px;
+      color: var(--gray-txt);
+      margin-top: 4px;
+    }
+
+    .sh-badge {
+      background: var(--grad-hero);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .sh-badge.data {
+      background: var(--grad-data);
+    }
+
+    .sh-badge.ai {
+      background: var(--grad-ai);
+    }
+
+    .sh-badge.infra {
+      background: var(--grad-infra);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid #BDD9EF;
+      border-radius: 50px;
+      padding: 7px 14px;
+      box-shadow: 0 4px 28px rgba(0, 87, 168, .20);
+      z-index: 300;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--gray-txt);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 600;
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    nav button.active,
+    nav button:hover {
+      background: var(--grad-hero);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .nav-arr {
+      background: none;
+      border: 1px solid #BDD9EF;
+      color: var(--b-main);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 11px;
+      border-radius: 50%;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .nav-arr:hover {
+      background: var(--b-sky);
+    }
+
+    /* SLIDE FOOTER */
+    .sf {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #D5E8F5;
+      text-align: center;
+      font-size: 10.5px;
+      color: var(--gray-mid);
+    }
+
+    /* ============================================================
+   SLIDE 1 — OVERVIEW (3-tier diagram)
+   ============================================================ */
+    .tier-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tier {
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+    }
+
+    .tier:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .tier-hd {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+    }
+
+    .tier-num {
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      text-align: center;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, .25);
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .tier-label {
+      flex: 1;
+    }
+
+    .tier-label .tl-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 1;
+      margin-bottom: 3px;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+    }
+
+    .tier-label .tl-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    }
+
+    .tier-label .tl-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .92);
+      margin-top: 2px;
+    }
+
+    .tier-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, .28);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      letter-spacing: .5px;
+    }
+
+    .tier-t1 .tier-hd {
+      background: var(--grad-hero);
+    }
+
+    .tier-t2 .tier-hd {
+      background: var(--grad-data);
+    }
+
+    .tier-t3 .tier-hd {
+      background: var(--grad-ai);
+    }
+
+    .tier-body {
+      background: transparent;
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .tier-t1 .tier-body {
+      background: transparent;
+    }
+
+    .tb-cell.plan {
+      background: #FAFCFF;
+    }
+
+    .tier-t2 .tier-body {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tier-t3 .tier-body {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .group-office .tb-cell {
+      background: #F0F8FF;
+      /* Xanh nhạt tông Azure */
+    }
+
+    .group-office .tb-cell.plan {
+      background: #E8F4FC;
+      /* Xanh nhạt hơi ngà cho Plan */
+    }
+
+    .tb-cell {
+      padding: 14px 16px;
+      background: white;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(36, 61, 92, 0.04);
+      transition: .2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .num-badge {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 24px;
+      height: 24px;
+      background: #0078D4;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      border: 2px solid white;
+      box-shadow: 0 2px 4px rgba(0, 120, 212, 0.3);
+      z-index: 10;
+    }
+
+    .tb-cell:hover {
+      box-shadow: 0 6px 16px rgba(0, 120, 212, 0.1);
+      transform: translateY(-2px);
+      border-color: rgba(0, 120, 212, 0.3);
+    }
+
+    .tb-desc {
+      font-size: 9.5px;
+      color: var(--gray-txt);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #D5E8F5;
+      line-height: 1.4;
+      flex-grow: 1;
+    }
+
+    .tb-icon {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .tb-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .tb-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--b-deep);
+      line-height: 1.35;
+    }
+
+    .tb-status {
+      font-size: 9px;
+      margin-top: 4px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .s-live {
+      background: rgba(26, 107, 60, .12);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .s-wip {
+      background: rgba(0, 120, 212, .10);
+      color: var(--b-main);
+      font-weight: 700;
+    }
+
+    .s-plan {
+      background: rgba(176, 196, 216, .20);
+      color: var(--gray-txt);
+    }
+
+    /* flow arrows */
+    .flow-arrow {
+      text-align: center;
+      padding: 18px 0;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flow-arrow svg {
+      overflow: visible;
+    }
+
+    .flow-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-dasharray: 6 6;
+      stroke-linecap: round;
+    }
+
+    .flow-up {
+      stroke: var(--b-main);
+      animation: dashFlow 1s linear infinite;
+    }
+
+    .flow-down {
+      stroke: var(--success);
+      animation: dashFlow 1s linear infinite;
+    }
+
+    @keyframes dashFlow {
+      from {
+        stroke-dashoffset: 24;
+      }
+
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* KEY VALUE boxes */
+    .kv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .kv-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: .2s;
+    }
+
+    .kv-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .kv-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .kv-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--b-main);
+      line-height: 1;
+    }
+
+    .kv-label {
+      font-size: 11px;
+      color: var(--gray-txt);
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+   SLIDE 2 — TẦNG 3 APPLICATION LAYER
+   ============================================================ */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .app-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--grad-hero);
+    }
+
+    .app-card.done::before {
+      background: linear-gradient(90deg, #1a6b3c, #28a745);
+    }
+
+    .app-card.wip::before {
+      background: var(--grad-hero);
+    }
+
+    .app-card.plan::before {
+      background: #B0C4D8;
+    }
+
+    .app-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .ac-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      margin-top: 6px;
+    }
+
+    .ac-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--b-deep);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .ac-modules {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 10px;
+    }
+
+    .ac-mod {
+      font-size: 10.5px;
+      color: var(--gray-txt);
+      padding: 3px 8px;
+      background: var(--b-sky);
+      border-radius: 5px;
+      line-height: 1.4;
+    }
+
+    .ac-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid #EEF5FB;
+    }
+
+    .ac-icon {
+      font-size: 22px;
+    }
+
+    .ac-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 12px;
+    }
+
+    .b-done {
+      background: rgba(26, 107, 60, .12);
+      color: var(--success);
+    }
+
+    .b-wip {
+      background: rgba(0, 120, 212, .10);
+      color: var(--b-main);
+    }
+
+    .b-plan {
+      background: rgba(176, 196, 216, .20);
+      color: var(--gray-txt);
+    }
+
+    .b-pause {
+      background: rgba(196, 92, 42, .12);
+      color: var(--warning);
+    }
+
+    /* CMS highlight */
+    .app-card.cms-highlight {
+      border-color: var(--b-mid);
+      background: linear-gradient(135deg, #EBF5FF, #FFF);
+    }
+
+    /* ============================================================
+   SLIDE 3 — TẦNG 2 DATA LAYER
+   ============================================================ */
+    .data-layout {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      gap: 12px;
+    }
+
+    .hz-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .hz-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-dasharray: 6 6;
+      stroke-linecap: round;
+      animation: dashFlow 1s linear infinite;
+    }
+
+    .data-zone {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .dz-head {
+      padding: 14px 18px;
+      color: #fff;
+    }
+
+    .dz-head .dz-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .dz-head .dz-name {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .dz-body {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      padding: 14px;
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+    }
+
+    .dz-item {
+      padding: 7px 10px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .knb-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 14px;
+    }
+
+    .knb-head {
+      padding: 14px 18px;
+      background: var(--grad-ai);
+      color: #fff;
+    }
+
+    .knb-head .knb-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .knb-head .knb-name {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .knb-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .knb-item {
+      background: var(--b-sky);
+      border: 1px solid #BDD9EF;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .knb-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .knb-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .knb-nm {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+   SLIDE 4 — TẦNG 1 INTELLIGENCE LAYER
+   ============================================================ */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .persona-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .pc-head {
+      padding: 16px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pc-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .pc-info .pc-role {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .pc-info .pc-name {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .pc-info .pc-desc {
+      font-size: 10px;
+      opacity: .85;
+      margin-top: 2px;
+    }
+
+    .pc-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #D5E8F5;
+      overflow-x: auto;
+    }
+
+    .pc-tab {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 8px 14px;
+      color: var(--gray-txt);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+      transition: .2s;
+    }
+
+    .pc-tab.active {
+      color: var(--b-main);
+      border-bottom-color: var(--b-main);
+    }
+
+    .pc-body {
+      padding: 14px 20px;
+    }
+
+    .kpi-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .kpi-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      padding: 6px 8px;
+      background: var(--b-sky);
+      border-radius: 7px;
+      border: 1px solid #D5E8F5;
+    }
+
+    .kpi-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .ai-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: .2s;
+    }
+
+    .ai-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .ai-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .ai-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--purple);
+      line-height: 1.3;
+      margin-bottom: 5px;
+    }
+
+    .ai-desc {
+      font-size: 10px;
+      color: var(--gray-txt);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+   SLIDE 5 — VALUE PROPOSITION
+   ============================================================ */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .val-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+    }
+
+    .val-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-h);
+      border-color: var(--b-mid);
+    }
+
+    .val-num {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .val-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--b-deep);
+      margin-bottom: 8px;
+    }
+
+    .val-desc {
+      font-size: 11px;
+      color: var(--gray-txt);
+      line-height: 1.7;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .compare-table th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    .compare-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #EEF5FB;
+    }
+
+    .compare-table tr:hover td {
+      background: var(--b-sky);
+    }
+
+    .compare-table .before {
+      background: #FFF5F5;
+    }
+
+    .compare-table .after {
+      background: #F0FFF4;
+    }
+
+    /* Navigation link styles */
+    nav a {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    nav a.nav-link {
+      color: var(--gray-txt);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 600;
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    nav a.nav-link.active,
+    nav a.nav-link:hover {
+      background: var(--grad-hero);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    nav a.nav-arr-link {
+      background: none;
+      border: 1px solid #BDD9EF;
+      color: var(--b-main);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 11px;
+      border-radius: 50%;
+      transition: .2s;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
+    nav a.nav-arr-link:hover {
+      background: var(--b-sky);
+    }
+
+    /* Force slide to show since no JS toggle */
+    .slide {
+      display: block !important;
+      min-height: calc(100vh - 58px);
+      padding: 28px 28px 110px;
+    }
+    /* PRS DOC NAV (inside topbar) */
+    .prs-doc-nav { display: flex; gap: 5px; align-items: center; margin-right: 10px; }
+    .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
+    .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
+    .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+  </style>
+</head>
+
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc hệ thống · SA · v2.0 · 2026</div>
+        <div class="name">CHIẾN LƯỢC CHUYỂN ĐỔI SỐ — TRUNG CHÍNH</div>
+      </div>
+      <div class="topbar-right"><div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a href="../01_overview/index.html" class="prs-doc-btn prs-doc-active">PRS·02 · Kiến trúc SA</a><a href="../../SA_TIMELINE_PRS/01_timeline/index.html" class="prs-doc-btn">PRS·03 · Timeline</a></div>
+        <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════ SLIDE 1: TỔNG QUAN 3 TẦNG ════════════════ -->
+  <div class="slide" id="slide-1">
+    <div class="pw">
+      <div class="sh">
+        <div>
+          <div class="sh-num">01 / 05 · Tổng quan</div>
+          <div class="sh-h1">Kiến Trúc 3 Tầng — Hệ Sinh Thái Số Trung Chính</div>
+          <div class="sh-sub">14 Hệ thống · Data Lake & AI Knowledge Base · C-Level Intelligence Dashboard</div>
+        </div>
+        <div class="sh-badge">🏗️ Architecture</div>
+      </div>
+
+      <div class="tier-diagram">
+        <!-- TẦNG 1 -->
+        <div class="tier tier-t3">
+          <div class="tier-hd">
+            <div class="tier-num">TẦNG 1</div>
+            <div class="tier-label">
+              <div class="tl-tag">TẦNG 1 · Tầng Quản trị</div>
+              <div class="tl-name">Dashboard · AI Analytics · Phân tích & Cảnh báo sớm</div>
+              <div class="tl-sub">Phục vụ Chủ tịch HĐQT & Tổng Giám đốc</div>
+            </div>
+            <div class="tier-chips">
+              <div class="chip">👑 Màn hình Chủ tịch</div>
+              <div class="chip">🎯 Màn hình TGĐ</div>
+              <div class="chip">🤖 AI Engine ×7</div>
+              <div class="chip">🔔 Phân tích dữ liệu & Cảnh báo sớm</div>
+              <div class="chip">📊 Báo cáo tự động</div>
+            </div>
+          </div>
+          <div class="tier-body" style="grid-template-columns:repeat(4,1fr);">
+            <div class="tb-cell">
+              <div class="tb-icon">🏭</div>
+              <div class="tb-code">DỰ ÁN</div>
+              <div class="tb-name">Điều hành Dự án — Chủ tịch</div>
+            </div>
+            <div class="tb-cell">
+              <div class="tb-icon">🏢</div>
+              <div class="tb-code">DOANH NGHIỆP</div>
+              <div class="tb-name">Điều hành & Quản trị Doanh nghiệp — TGĐ</div>
+            </div>
+            <div class="tb-cell">
+              <div class="tb-icon">🤖</div>
+              <div class="tb-code">AI ENGINE</div>
+              <div class="tb-name">7 Model AI: Chi phí, Tiến độ, Vật tư, Dòng tiền...</div>
+            </div>
+            <div class="tb-cell">
+              <div class="tb-icon">🔔</div>
+              <div class="tb-code">CẢNH BÁO</div>
+              <div class="tb-name">Hệ thống Phân tích dữ liệu — Gửi Cảnh báo sớm</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <!-- Up arrow (Blue) -->
+            <path d="M 12 40 L 12 8" class="flow-path flow-up" />
+            <polygon points="12,0 6,12 18,12" fill="var(--b-main)" />
+            <!-- Down arrow (Green) -->
+            <path d="M 28 0 L 28 32" class="flow-path flow-down" />
+            <polygon points="28,40 22,28 34,28" fill="var(--success)" />
+          </svg>
+        </div>
+
+        <!-- TẦNG 2 -->
+        <div class="tier tier-t2">
+          <div class="tier-hd">
+            <div class="tier-num">TẦNG 2</div>
+            <div class="tier-label">
+              <div class="tl-tag">TẦNG 2 · Tầng Dữ liệu — "Tài Sản Số Của Doanh Nghiệp"</div>
+              <div class="tl-name">Data Lake · Data Warehouse · TC.KNB Knowledge Base</div>
+              <div class="tl-sub">Tích hợp toàn bộ dữ liệu 14 hệ thống · Chuyển hoá kinh nghiệm thành tài sản số</div>
+            </div>
+            <div class="tier-chips">
+              <div class="chip">🗄️ 3-Zone Data Lake</div>
+              <div class="chip">⭐ Star Schema DWH</div>
+              <div class="chip">🧠 TC.KNB Knowledge</div>
+              <div class="chip">🔄 ETL Pipeline</div>
+            </div>
+          </div>
+          <div class="tier-body">
+            <div class="tb-cell">
+              <div class="tb-icon">📥</div>
+              <div class="tb-code">TC.DLK · RAW</div>
+              <div class="tb-name">Raw Zone — Dữ liệu thô từ 14 hệ thống</div>
+            </div>
+            <div class="tb-cell">
+              <div class="tb-icon">✨</div>
+              <div class="tb-code">TC.DLK · STAGE</div>
+              <div class="tb-name">Stage Zone — Làm sạch, chuẩn hoá, ETL</div>
+            </div>
+            <div class="tb-cell">
+              <div class="tb-icon">🏛️</div>
+              <div class="tb-code">TC.DWH</div>
+              <div class="tb-name">Data Warehouse — Nguồn dữ liệu cho AI, phân tích, cảnh báo</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <!-- Up arrow (Blue) -->
+            <path d="M 12 40 L 12 8" class="flow-path flow-up" />
+            <polygon points="12,0 6,12 18,12" fill="var(--b-main)" />
+            <!-- Down arrow (Green) -->
+            <path d="M 28 0 L 28 32" class="flow-path flow-down" />
+            <polygon points="28,40 22,28 34,28" fill="var(--success)" />
+          </svg>
+        </div>
+
+        <!-- TẦNG 3 -->
+        <div class="tier tier-t1">
+          <div class="tier-hd">
+            <div class="tier-num">TẦNG 3</div>
+            <div class="tier-label">
+              <div class="tl-tag">TẦNG 3 · Tầng Ứng dụng</div>
+              <div class="tl-name">14 Hệ thống Phần mềm — Toàn bộ nghiệp vụ Trung Chính</div>
+              <div class="tl-sub">Từ Nhân sự · Công việc · Quản lý Dự án · VTTC · MTB · Tài chính · Hành chính · Chất
+                lượng · An toàn</div>
+            </div>
+            <div class="tier-chips">
+              <div class="chip">✅ TC.HRM Live</div>
+              <div class="chip">✅ TC.WMS Live</div>
+              <div class="chip">⏸ TC.CMS</div>
+              <div class="chip">🔵 TC.IMS</div>
+              <div class="chip">🔵 TC.EMS</div>
+              <div class="chip">🔲 9 Hệ thống</div>
+            </div>
+          </div>
+          <div class="tier-body" style="display: flex; flex-direction: column; gap: 16px;">
+
+            <!-- Group Top: 13 Hệ thống Khác -->
+            <div
+              style="background: white; border: 1px dashed rgba(0, 120, 212, 0.3); border-radius: 12px; padding: 16px;">
+              <div
+                style="font-size: 11px; font-weight: 800; color: #0057A8; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">
+                ▶ Khối Văn Phòng & Vận hành chung (13 Hệ thống)</div>
+              <div class="group-office" style="display:grid; grid-template-columns:repeat(5, 1fr); gap: 14px;">
+                <div class="tb-cell">
+                  <div class="num-badge">1</div>
+                  <div class="tb-icon">👥</div>
+                  <div class="tb-code">TC.HRM</div>
+                  <div class="tb-name">Hệ thống Quản lý Nhân sự</div><span class="tb-status s-live">✅ Live</span>
+                  <div class="tb-desc">Hồ sơ NS, Khung năng lực, Chấm công, Tính lương, Điều động, Đào tạo...</div>
+                </div>
+                <div class="tb-cell">
+                  <div class="num-badge">2</div>
+                  <div class="tb-icon">📋</div>
+                  <div class="tb-code">TC.WMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Công việc</div><span class="tb-status s-live">✅ Live</span>
+                  <div class="tb-desc">Giao việc, Quản lý công việc, Kế hoạch công việc, Báo cáo công việc, Trình duyệt
+                    .</div>
+                </div>
+                <div class="tb-cell">
+                  <div class="num-badge">3</div>
+                  <div class="tb-icon">📦</div>
+                  <div class="tb-code">TC.IMS</div>
+                  <div class="tb-name">Hệ thống Quản lý VTTC</div><span class="tb-status s-wip">🔵 Phase 1/3</span>
+                  <div class="tb-desc">Danh mục vật tư, Nhập/Xuất/Tồn, Quản lý luân chuyển, hao hụt, Quản lý hiệu quản
+                    kinh doanh.</div>
+                </div>
+
+                <div class="tb-cell">
+                  <div class="num-badge">4</div>
+                  <div class="tb-icon">🚧</div>
+                  <div class="tb-code">TC.EMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Máy thiết bị</div><span class="tb-status s-wip">🔵 WIP</span>
+                  <div class="tb-desc">KH cung cấp MTB, biên bản bàn giao, bảng theo dõi xuất/nhập/tồn và định mức tiêu
+                    hao.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">5</div>
+                  <div class="tb-icon">🏗️</div>
+                  <div class="tb-code">TC.MMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Vật tư (VTC)</div><span class="tb-status s-plan">🔲 2026</span>
+                  <div class="tb-desc">KH Vật tư chính, TH khối lượng xuất kho, Quản lý dòng tiền VTC, Bảng kê chi tiết
+                    nhập/tồn.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">6</div>
+                  <div class="tb-icon">📂</div>
+                  <div class="tb-code">TC.DMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Tài liệu & Hồ sơ</div><span class="tb-status s-plan">🔲
+                    2026</span>
+                  <div class="tb-desc">Lưu trữ văn kiện số, QL BPTC lập hồ sơ thầu, Quản lý tiến độ bản vẽ BIM 3D/4D.
+                  </div>
+                </div>
+
+                <div class="tb-cell plan">
+                  <div class="num-badge">7</div>
+                  <div class="tb-icon">💰</div>
+                  <div class="tb-code">TC.FIN</div>
+                  <div class="tb-name">Hệ thống Quản lý Tài chính Kế toán</div><span class="tb-status s-plan">🔲
+                    2027</span>
+                  <div class="tb-desc">Quản lý thanh toán, công nợ định kỳ, luân chuyển dòng tiền và kiểm soát chi phí
+                    DA.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">8</div>
+                  <div class="tb-icon">📊</div>
+                  <div class="tb-code">TC.PRO</div>
+                  <div class="tb-name">Hệ thống Quản lý Sản lượng & Giá vốn</div><span class="tb-status s-plan">🔲
+                    Plan</span>
+                  <div class="tb-desc">Khớp nối nghiệp vụ theo dõi doanh thu cốt lõi, duyệt chốt sản lượng liên dự án.
+                  </div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">9</div>
+                  <div class="tb-icon">✅</div>
+                  <div class="tb-code">TC.QMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Chất lượng (QA/QC)</div><span class="tb-status s-plan">🔲
+                    2027</span>
+                  <div class="tb-desc">Quy trình QLCL theo DA, nghiệm thu kết cấu chính/phụ trợ, hệ thống báo cáo lỗi
+                    lõi.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">10</div>
+                  <div class="tb-icon">🦿</div>
+                  <div class="tb-code">TC.HSE</div>
+                  <div class="tb-name">Hệ thống Quản lý An toàn & MT</div><span class="tb-status s-plan">🔲 2027</span>
+                  <div class="tb-desc">Kiểm soát quy trình an toàn LĐ, hồ sơ HSE liên tuyến, quản lý và kiểm định thiết
+                    bị.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">11</div>
+                  <div class="tb-icon">🏢</div>
+                  <div class="tb-code">TC.OMS</div>
+                  <div class="tb-name">Hệ thống Quản lý Hành chính (Office)</div><span class="tb-status s-plan">🔲
+                    2027</span>
+                  <div class="tb-desc">Quản trị hành chính HQ, lưu trữ chuyển phát công văn đi/đến, quản lý tài sản
+                    chung.</div>
+                </div>
+
+                <div class="tb-cell plan">
+                  <div class="num-badge">12</div>
+                  <div class="tb-icon">📤</div>
+                  <div class="tb-code">TC.SUB</div>
+                  <div class="tb-name">Hệ thống Quản lý Thầu phụ (PHS)</div><span class="tb-status s-plan">🔲
+                    Plan</span>
+                  <div class="tb-desc">Đánh giá HSĐX thầu phụ, QL an toàn/tiến độ, xác nhận khối lượng giải nợ quyết
+                    toán.</div>
+                </div>
+                <div class="tb-cell plan">
+                  <div class="num-badge">13</div>
+                  <div class="tb-icon">⚙️</div>
+                  <div class="tb-code">TC.ADMIN</div>
+                  <div class="tb-name">Hệ thống Quản trị Administrator</div><span class="tb-status s-plan">🔲
+                    Core</span>
+                  <div class="tb-desc">Master Data, Phân quyền Role & Permission, QL dự án trước/sau đấu thầu, Tổ chức.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Liên kết 2 chiều -->
+            <div style="display: flex; justify-content: center; align-items: center; margin: -4px 0;">
+              <svg width="24" height="40" viewBox="0 0 24 40" style="overflow:visible;">
+                <!-- Flow down -->
+                <path d="M 8 0 L 8 40" stroke="rgba(0,120,212,0.6)" stroke-width="2.5" stroke-dasharray="4 4"
+                  fill="none" style="animation: dashFlow 1.2s linear infinite;" />
+                <polygon points="8,40 4,32 12,32" fill="rgba(0,120,212,0.8)" />
+
+                <!-- Flow up -->
+                <path d="M 16 0 L 16 40" stroke="rgba(0,120,212,0.6)" stroke-width="2.5" stroke-dasharray="4 4"
+                  fill="none" style="animation: dashFlow 1.2s linear infinite reverse;" />
+                <polygon points="16,0 12,8 20,8" fill="rgba(0,120,212,0.8)" />
+              </svg>
+            </div>
+
+            <!-- Group Bottom: TC.CMS -->
+            <div
+              style="position: relative; background: linear-gradient(135deg, #F0F6FF, #FFF); border: 2px solid #0078D4; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,120,212,.15);">
+
+              <div class="num-badge"
+                style="width: 32px; height: 32px; font-size: 14px; top: -14px; left: -14px; background: #005a9e; border-width: 3px;">
+                14</div>
+
+              <div
+                style="display: flex; gap: 16px; margin-bottom: 20px; align-items: center; border-bottom: 2px dashed rgba(0,120,212,.2); padding-bottom: 16px;">
+                <div class="tb-icon" style="font-size: 36px; margin:0;">🏗️</div>
+                <div>
+                  <div class="tb-code" style="color:#0078D4; font-size: 13px;">TC.CMS</div>
+                  <div class="tb-name" style="font-size: 18px; color:#005a9e; margin-bottom: 6px;">Hệ thống Quản lý
+                    Dự án</div>
+                  <div style="display:flex; gap: 6px;">
+                    <span class="tb-status"
+                      style="background:rgba(0,120,212,.1);color:#0078D4; margin:0; font-size: 10px;">⏸ Tạm dừng</span>
+                    <span class="tb-status"
+                      style="background:rgba(26,107,60,.12);color:#1a6b3c; margin:0; font-size: 10px;">✓ Ký HĐ 6
+                      tỷ</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lưới phân hệ 1: Dashboard & Giá thành -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white;">
+                  <div class="tb-icon">📊</div>
+                  <div class="tb-name" style="color:#005a9e;">DASHBOARD DỰ ÁN</div>
+                  <ul style="font-size: 10px; color:#555; padding-left: 14px; margin-top:8px; line-height:1.5;">
+                    <li>Overview, Tình trạng tiến độ, Nhân lực, VTC, MTG, VTTC.</li>
+                    <li>Camera AI giám sát an toàn. Biểu đồ sản lượng.</li>
+                    <li>Cảnh báo rủi ro, quá hạn, sự cố. Quản trị rủi ro tổng thể.</li>
+                  </ul>
+                </div>
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white;">
+                  <div class="tb-icon">💰</div>
+                  <div class="tb-name" style="color:#005a9e;">GIÁ THÀNH KẾ HOẠCH</div>
+                  <ul style="font-size: 10px; color:#555; padding-left: 14px; margin-top:8px; line-height:1.5;">
+                    <li>Quản lý giá thành kế hoạch, cập nhật dữ liệu.</li>
+                    <li>Kho dữ liệu giá thành lịch sử các dự án. Báo cáo.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Lưới phân hệ 2 (Trung tâm): Tiến độ -->
+              <div class="tb-cell"
+                style="border: 2px solid #0078D4; background: #FAFCFF; box-shadow: 0 4px 16px rgba(0,120,212,.2); margin-bottom: 20px; position:relative;">
+                <div style="text-align:center; font-size: 28px; margin-bottom:8px;">🗓️</div>
+                <div class="tb-name" style="color:#0078D4; text-align:center; font-size: 15px; margin-bottom: 8px;">
+                  TIẾN ĐỘ THI CÔNG TỔNG THỂ (TRUNG TÂM)</div>
+                <div
+                  style="font-size: 11px; font-weight:700; color:#0078D4; line-height:1.5; text-align: center; border-bottom: 1px dashed #D5E8F5; padding-bottom: 12px; margin-bottom: 12px;">
+                  Liên kết với các tiến độ Huy động Nhân lực, Cấp VTC, Cấp VTTC, Cấp MTB, Trình
+                  duyệt hồ sơ, Giải ngân Tài chính.
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                  <ul style="font-size: 10px; color:#555; padding-left: 14px; margin:0; line-height:1.5;">
+                    <li>Tiến độ kế hoạch (fix) & Tiến độ thi công cập nhật.</li>
+                    <li>Cập nhật thực tế, nguyên nhân, giải pháp sự cố.</li>
+                  </ul>
+                  <ul style="font-size: 10px; color:#555; padding-left: 14px; margin:0; line-height:1.5;">
+                    <li>Quản lý version. Liên kết BPTC TC BIM 4D.</li>
+                    <li>Thư viện gợi ý giải pháp. Quản trị rủi ro tiến độ.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Lưới phân hệ 3: 11 Phân hệ vận hành TCP.* -->
+              <div
+                style="font-size: 12px; font-weight: 800; color: #0078D4; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">
+                ▶ 11 Phân Hệ Vận Hành Dưới Dự Án (Dữ liệu Hiện trường)</div>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.HRM</div>
+                  <div class="tb-name" style="font-size:11px;">Nhân sự Dự án</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Kế hoạch, Điền động, Chấm công, Tính lương KPI.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.MMS</div>
+                  <div class="tb-name" style="font-size:11px;">Vật tư chính (VTC)</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Kế hoạch SD, Đề xuất cấp, Thí nghiệm đầu vào, Tồn kho.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.SFS</div>
+                  <div class="tb-name" style="font-size:11px;">Vật tư thi công</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Đề xuất mới, Thí nghiệm kích/neo, Luân chuyển, Hao hụt.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.CMS</div>
+                  <div class="tb-name" style="font-size:11px;">Máy Thiết bị (MTB)</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Kế hoạch SD, Nhiên liệu, Bảo dưỡng, Kiểm định, Báo hỏng.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.DCM</div>
+                  <div class="tb-name" style="font-size:11px;">Hồ sơ Pháp lý & KCS</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Trình duyệt HSE/KCS, Thanh toán, Template biểu mẫu.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.DMS</div>
+                  <div class="tb-name" style="font-size:11px;">Vật tư phụ (VTP)</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Đường bao chi phí, Đề xuất hoàn ứng, Kho hiện trường.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.QAQC</div>
+                  <div class="tb-name" style="font-size:11px;">Chất lượng</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>IoT Sensor đo đạc kết cấu đặc biệt, Phiếu lỗi NCR.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.PRO</div>
+                  <div class="tb-name" style="font-size:11px;">Sản lượng</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Kế hoạch, Đã thanh toán, Phát sinh VO, Báo cáo chốt.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.SMS</div>
+                  <div class="tb-name" style="font-size:11px;">An toàn HSE</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Camera AI An toàn, Huấn luyện, Cảnh báo, Phạt vi phạm.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.FIN</div>
+                  <div class="tb-name" style="font-size:11px;">Tài chính Kế toán</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Đề xuất Thu/Chi công trường, Quản lý HĐ thầu phụ, VAT.</li>
+                  </ul>
+                </div>
+
+                <div class="tb-cell" style="border-color: #D5E8F5; background: white; padding: 12px;">
+                  <div class="tb-code" style="color:#0078D4;">TCP.SUB</div>
+                  <div class="tb-name" style="font-size:11px;">Thầu phụ</div>
+                  <ul style="font-size: 9.5px; color:#555; padding-left:14px; margin-top:6px; margin-bottom:0;">
+                    <li>Năng lực hồ sơ, Quản lý tiến độ/nhân sự B, Giải nợ.</li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="kv-grid">
+        <div class="kv-card">
+          <div class="kv-icon">🏗️</div>
+          <div class="kv-val">14</div>
+          <div class="kv-label">Hệ thống phần mềm toàn diện</div>
+        </div>
+        <div class="kv-card">
+          <div class="kv-icon">🧠</div>
+          <div class="kv-val">TC.KNB</div>
+          <div class="kv-label">Kho tri thức doanh nghiệp - Knowledge Base</div>
+        </div>
+        <div class="kv-card">
+          <div class="kv-icon">👁️</div>
+          <div class="kv-val">5 phút</div>
+          <div class="kv-label">BLĐ biết toàn bộ tình trạng mỗi sáng</div>
+        </div>
+      </div>
+      <div class="sf">Trung Chính · Kiến trúc 3 Tầng · SA v2.0 · 2026</div>
+    </div>
+  </div>
+
+  <!-- ════════════════ SLIDE 2: TẦNG 3 ════════════════ -->
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="../05_core_values/index.html" class="nav-arr-link">❮</a>
+    <a href="../01_overview/index.html" class="nav-link active">01 Tổng quan 3 Tầng</a>
+    <a href="../02_application_layer/index.html" class="nav-link">02 Tầng 3 · Ứng dụng</a>
+    <a href="../03_data_layer/index.html" class="nav-link">03 Tầng 2 · Dữ liệu</a>
+    <a href="../04_operations_layer/index.html" class="nav-link">04 Tầng 1 · Quản trị</a>
+    <a href="../05_core_values/index.html" class="nav-link">05 Giá trị</a>
+    <a href="../02_application_layer/index.html" class="nav-arr-link">❯</a>
+  </nav>
+
+</body>
+
+</html>

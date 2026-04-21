@@ -1,0 +1,1251 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiến Trúc 3 Tầng CĐS — Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --b-deep: #0057A8;
+      --b-main: #0078D4;
+      --b-mid: #1E90FF;
+      --b-light: #00AEEF;
+      --b-sky: #E8F4FD;
+      --white: #FFFFFF;
+      --gray-bg: #F2F7FC;
+      --gray-mid: #B0C4D8;
+      --gray-txt: #4A6080;
+      --dark: #1A2B42;
+      --success: #1a6b3c;
+      --warning: #c45c2a;
+      --gold: #d4930a;
+      --teal: #0d6e6e;
+      --purple: #6a3fa6;
+      --grad-h: linear-gradient(90deg, #003D7A 0%, #0078D4 55%, #00AEEF 100%);
+      --grad-hero: linear-gradient(135deg, #0057A8 0%, #0091D5 60%, #00AEEF 100%);
+      --grad-data: linear-gradient(135deg, #0d6e6e 0%, #1a9a9a 100%);
+      --grad-ai: linear-gradient(135deg, #6a3fa6 0%, #9b6fd4 100%);
+      --grad-infra: linear-gradient(135deg, #c45c2a 0%, #e07040 100%);
+      --shadow: 0 4px 20px rgba(0, 87, 168, .10);
+      --shadow-h: 0 10px 36px rgba(0, 87, 168, .20);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--gray-bg);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: var(--grad-h);
+      box-shadow: 0 2px 16px rgba(0, 60, 140, .28);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 11px 28px;
+    }
+
+    .topbar-logo {
+      height: 42px;
+      filter: brightness(0) invert(1);
+    }
+
+    .topbar-brand .sub {
+      color: rgba(255, 255, 255, .65);
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .topbar-brand .name {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .topbar-back {
+      color: rgba(255, 255, 255, .85);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      transition: .2s;
+    }
+
+    .topbar-back:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    /* SLIDES */
+    .slide {
+      display: none;
+      min-height: calc(100vh - 58px);
+      padding: 28px 28px 110px;
+      animation: fi .35s ease;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fi {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .pw {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+
+    /* SLIDE HEADER */
+    .sh {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #D5E8F5;
+    }
+
+    .sh-num {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .sh-h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--b-deep);
+      line-height: 1.2;
+    }
+
+    .sh-sub {
+      font-size: 12px;
+      color: var(--gray-txt);
+      margin-top: 4px;
+    }
+
+    .sh-badge {
+      background: var(--grad-hero);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .sh-badge.data {
+      background: var(--grad-data);
+    }
+
+    .sh-badge.ai {
+      background: var(--grad-ai);
+    }
+
+    .sh-badge.infra {
+      background: var(--grad-infra);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid #BDD9EF;
+      border-radius: 50px;
+      padding: 7px 14px;
+      box-shadow: 0 4px 28px rgba(0, 87, 168, .20);
+      z-index: 300;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: var(--gray-txt);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 600;
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    nav button.active,
+    nav button:hover {
+      background: var(--grad-hero);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .nav-arr {
+      background: none;
+      border: 1px solid #BDD9EF;
+      color: var(--b-main);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 11px;
+      border-radius: 50%;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .nav-arr:hover {
+      background: var(--b-sky);
+    }
+
+    /* SLIDE FOOTER */
+    .sf {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #D5E8F5;
+      text-align: center;
+      font-size: 10.5px;
+      color: var(--gray-mid);
+    }
+
+    /* ============================================================
+   SLIDE 1 — OVERVIEW (3-tier diagram)
+   ============================================================ */
+    .tier-diagram {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .tier {
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+    }
+
+    .tier:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .tier-hd {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+    }
+
+    .tier-num {
+      font-size: 13px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      text-align: center;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, .25);
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .tier-label {
+      flex: 1;
+    }
+
+    .tier-label .tl-tag {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 1;
+      margin-bottom: 3px;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+    }
+
+    .tier-label .tl-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    }
+
+    .tier-label .tl-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .92);
+      margin-top: 2px;
+    }
+
+    .tier-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, .28);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      letter-spacing: .5px;
+    }
+
+    .tier-t1 .tier-hd {
+      background: var(--grad-hero);
+    }
+
+    .tier-t2 .tier-hd {
+      background: var(--grad-data);
+    }
+
+    .tier-t3 .tier-hd {
+      background: var(--grad-ai);
+    }
+
+    .tier-body {
+      background: transparent;
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .tier-t1 .tier-body {
+      background: transparent;
+    }
+
+    .tb-cell.plan {
+      background: #FAFCFF;
+    }
+
+    .tier-t2 .tier-body {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tier-t3 .tier-body {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .group-office .tb-cell {
+      background: #F0F8FF;
+      /* Xanh nhạt tông Azure */
+    }
+
+    .group-office .tb-cell.plan {
+      background: #E8F4FC;
+      /* Xanh nhạt hơi ngà cho Plan */
+    }
+
+    .tb-cell {
+      padding: 14px 16px;
+      background: white;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(36, 61, 92, 0.04);
+      transition: .2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .num-badge {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 24px;
+      height: 24px;
+      background: #0078D4;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      border: 2px solid white;
+      box-shadow: 0 2px 4px rgba(0, 120, 212, 0.3);
+      z-index: 10;
+    }
+
+    .tb-cell:hover {
+      box-shadow: 0 6px 16px rgba(0, 120, 212, 0.1);
+      transform: translateY(-2px);
+      border-color: rgba(0, 120, 212, 0.3);
+    }
+
+    .tb-desc {
+      font-size: 9.5px;
+      color: var(--gray-txt);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #D5E8F5;
+      line-height: 1.4;
+      flex-grow: 1;
+    }
+
+    .tb-icon {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .tb-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .tb-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--b-deep);
+      line-height: 1.35;
+    }
+
+    .tb-status {
+      font-size: 9px;
+      margin-top: 4px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .s-live {
+      background: rgba(26, 107, 60, .12);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .s-wip {
+      background: rgba(0, 120, 212, .10);
+      color: var(--b-main);
+      font-weight: 700;
+    }
+
+    .s-plan {
+      background: rgba(176, 196, 216, .20);
+      color: var(--gray-txt);
+    }
+
+    /* flow arrows */
+    .flow-arrow {
+      text-align: center;
+      padding: 18px 0;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flow-arrow svg {
+      overflow: visible;
+    }
+
+    .flow-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-dasharray: 6 6;
+      stroke-linecap: round;
+    }
+
+    .flow-up {
+      stroke: var(--b-main);
+      animation: dashFlow 1s linear infinite;
+    }
+
+    .flow-down {
+      stroke: var(--success);
+      animation: dashFlow 1s linear infinite;
+    }
+
+    @keyframes dashFlow {
+      from {
+        stroke-dashoffset: 24;
+      }
+
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* KEY VALUE boxes */
+    .kv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .kv-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: .2s;
+    }
+
+    .kv-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .kv-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .kv-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--b-main);
+      line-height: 1;
+    }
+
+    .kv-label {
+      font-size: 11px;
+      color: var(--gray-txt);
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+   SLIDE 2 — TẦNG 3 APPLICATION LAYER
+   ============================================================ */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .app-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--grad-hero);
+    }
+
+    .app-card.done::before {
+      background: linear-gradient(90deg, #1a6b3c, #28a745);
+    }
+
+    .app-card.wip::before {
+      background: var(--grad-hero);
+    }
+
+    .app-card.plan::before {
+      background: #B0C4D8;
+    }
+
+    .app-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .ac-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--b-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      margin-top: 6px;
+    }
+
+    .ac-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--b-deep);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .ac-modules {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 10px;
+    }
+
+    .ac-mod {
+      font-size: 10.5px;
+      color: var(--gray-txt);
+      padding: 3px 8px;
+      background: var(--b-sky);
+      border-radius: 5px;
+      line-height: 1.4;
+    }
+
+    .ac-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid #EEF5FB;
+    }
+
+    .ac-icon {
+      font-size: 22px;
+    }
+
+    .ac-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 12px;
+    }
+
+    .b-done {
+      background: rgba(26, 107, 60, .12);
+      color: var(--success);
+    }
+
+    .b-wip {
+      background: rgba(0, 120, 212, .10);
+      color: var(--b-main);
+    }
+
+    .b-plan {
+      background: rgba(176, 196, 216, .20);
+      color: var(--gray-txt);
+    }
+
+    .b-pause {
+      background: rgba(196, 92, 42, .12);
+      color: var(--warning);
+    }
+
+    /* CMS highlight */
+    .app-card.cms-highlight {
+      border-color: var(--b-mid);
+      background: linear-gradient(135deg, #EBF5FF, #FFF);
+    }
+
+    /* ============================================================
+   SLIDE 3 — TẦNG 2 DATA LAYER
+   ============================================================ */
+    .data-layout {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      gap: 12px;
+    }
+
+    .hz-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .hz-path {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-dasharray: 6 6;
+      stroke-linecap: round;
+      animation: dashFlow 1s linear infinite;
+    }
+
+    .data-zone {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .dz-head {
+      padding: 14px 18px;
+      color: #fff;
+    }
+
+    .dz-head .dz-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .dz-head .dz-name {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .dz-body {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      padding: 14px;
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+    }
+
+    .dz-item {
+      padding: 7px 10px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .knb-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 14px;
+    }
+
+    .knb-head {
+      padding: 14px 18px;
+      background: var(--grad-ai);
+      color: #fff;
+    }
+
+    .knb-head .knb-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .knb-head .knb-name {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .knb-body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .knb-item {
+      background: var(--b-sky);
+      border: 1px solid #BDD9EF;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .knb-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .knb-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .knb-nm {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* ============================================================
+   SLIDE 4 — TẦNG 1 INTELLIGENCE LAYER
+   ============================================================ */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .persona-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .pc-head {
+      padding: 16px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pc-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .pc-info .pc-role {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 3px;
+    }
+
+    .pc-info .pc-name {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .pc-info .pc-desc {
+      font-size: 10px;
+      opacity: .85;
+      margin-top: 2px;
+    }
+
+    .pc-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #D5E8F5;
+      overflow-x: auto;
+    }
+
+    .pc-tab {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 8px 14px;
+      color: var(--gray-txt);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+      transition: .2s;
+    }
+
+    .pc-tab.active {
+      color: var(--b-main);
+      border-bottom-color: var(--b-main);
+    }
+
+    .pc-body {
+      padding: 14px 20px;
+    }
+
+    .kpi-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .kpi-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11.5px;
+      padding: 6px 8px;
+      background: var(--b-sky);
+      border-radius: 7px;
+      border: 1px solid #D5E8F5;
+    }
+
+    .kpi-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .ai-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: .2s;
+    }
+
+    .ai-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-h);
+    }
+
+    .ai-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .ai-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--purple);
+      line-height: 1.3;
+      margin-bottom: 5px;
+    }
+
+    .ai-desc {
+      font-size: 10px;
+      color: var(--gray-txt);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+   SLIDE 5 — VALUE PROPOSITION
+   ============================================================ */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .val-card {
+      background: #fff;
+      border: 1px solid #D5E8F5;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      transition: .2s;
+    }
+
+    .val-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-h);
+      border-color: var(--b-mid);
+    }
+
+    .val-num {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .val-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--b-deep);
+      margin-bottom: 8px;
+    }
+
+    .val-desc {
+      font-size: 11px;
+      color: var(--gray-txt);
+      line-height: 1.7;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .compare-table th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    .compare-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #EEF5FB;
+    }
+
+    .compare-table tr:hover td {
+      background: var(--b-sky);
+    }
+
+    .compare-table .before {
+      background: #FFF5F5;
+    }
+
+    .compare-table .after {
+      background: #F0FFF4;
+    }
+
+    /* Navigation link styles */
+    nav a {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    nav a.nav-link {
+      color: var(--gray-txt);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 600;
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    nav a.nav-link.active,
+    nav a.nav-link:hover {
+      background: var(--grad-hero);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    nav a.nav-arr-link {
+      background: none;
+      border: 1px solid #BDD9EF;
+      color: var(--b-main);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 11px;
+      border-radius: 50%;
+      transition: .2s;
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+
+    nav a.nav-arr-link:hover {
+      background: var(--b-sky);
+    }
+
+    /* Force slide to show since no JS toggle */
+    .slide {
+      display: block !important;
+      min-height: calc(100vh - 58px);
+      padding: 28px 28px 110px;
+    }
+    /* PRS DOC NAV (inside topbar) */
+    .prs-doc-nav { display: flex; gap: 5px; align-items: center; margin-right: 10px; }
+    .prs-doc-btn { color: rgba(255,255,255,.72); font-size: 11px; font-weight: 700; text-decoration: none; padding: 5px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,.22); transition: .2s; white-space: nowrap; }
+    .prs-doc-btn:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.4); }
+    .prs-doc-btn.prs-doc-active { background: rgba(255,255,255,.28); color: #fff; border-color: rgba(255,255,255,.55); font-weight: 800; }
+  </style>
+</head>
+
+<body>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc hệ thống · SA · v2.0 · 2026</div>
+        <div class="name">CHIẾN LƯỢC CHUYỂN ĐỔI SỐ — TRUNG CHÍNH</div>
+      </div>
+      <div class="topbar-right"><div class="prs-doc-nav"><a href="../../CCTC_TC_PRS/index.html" class="prs-doc-btn">PRS·01 · Cơ cấu TC</a><a href="../01_overview/index.html" class="prs-doc-btn prs-doc-active">PRS·02 · Kiến trúc SA</a><a href="../../SA_TIMELINE_PRS/01_timeline/index.html" class="prs-doc-btn">PRS·03 · Timeline</a></div>
+        <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════ SLIDE 5: GIÁ TRỊ CỐT LÕI ════════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="pw">
+      <div class="sh">
+        <div>
+          <div class="sh-num">05 / 05 · Giá trị mang lại</div>
+          <div class="sh-h1">Tại Sao Trung Chính Cần Kiến Trúc 3 Tầng Này?</div>
+          <div class="sh-sub">Chuyển từ "quản lý theo cảm tính" sang "quản lý theo dữ liệu" — Lợi thế cạnh tranh không
+            thể sao chép</div>
+        </div>
+        <div class="sh-badge">💡 Giá trị</div>
+      </div>
+
+      <div class="value-grid">
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">5 phút
+          </div>
+          <div class="val-label">Báo cáo nhanh hàng sáng</div>
+          <div class="val-desc">Thay vì họp giao ban 2 tiếng để nghe báo cáo, BLĐ nhìn báo cáo nhanh 5 phút → biết toàn
+            bộ → họp chỉ để ra quyết định.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-data);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Tức
+            thời</div>
+          <div class="val-label">Phát hiện vấn đề sớm</div>
+          <div class="val-desc">Biết dự án có xu hướng chậm tiến độ, vượt giá vốn khi có dấu hiệu bất thường, ngoài kiểm
+            soát. Thời
+            gian phản ứng: ngay lập tức.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-ai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">TC.KNB
+          </div>
+          <div class="val-label">Lợi thế Tri thức — Không thể sao chép</div>
+          <div class="val-desc">20+ năm kinh nghiệm thi công cầu lớn được số hoá. Khi người tài nghỉ hưu, tri thức
+            vẫn
+            còn. Đối thủ không thể có được.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-infra);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">AI
+            VTTC, MTB</div>
+          <div class="val-label">Tối ưu luân chuyển, điều phối VTTC, MTB</div>
+          <div class="val-desc">AI phát hiện VTTC, MTB tồn, luân chuyển chưa phù hợp và gợi ý điều phối tự động → tiết
+            kiệm hàng tỷ VNĐ/năm chi phí
+            thuê ngoài và thất thoát.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Tự
+            động</div>
+          <div class="val-label">Báo cáo không cần người làm</div>
+          <div class="val-desc">Báo cáo tháng tự phát sinh ngày 5. Báo cáo nhanh tự gửi 7h sáng. Không cần 5 người làm
+            báo cáo mất 3 ngày.</div>
+        </div>
+        <div class="val-card">
+          <div class="val-num"
+            style="background:var(--grad-data);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Đấu
+            thầu</div>
+          <div class="val-label">Lợi thế cạnh tranh trong đấu thầu</div>
+          <div class="val-desc">Dữ liệu lịch sử giá vốn thực tế giúp lập giá thầu chính xác hơn. AI gợi ý rủi ro thi
+            công từ dữ liệu quá khứ.</div>
+        </div>
+      </div>
+
+      <div
+        style="background:#fff;border:1px solid #D5E8F5;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);">
+        <div
+          style="background:var(--grad-hero);color:#fff;padding:12px 20px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;">
+          TRƯỚC & SAU KHI CÓ HỆ SINH THÁI SỐ
+        </div>
+        <div style="overflow:auto;">
+          <table class="compare-table">
+            <tr>
+              <th style="background:#FFF5F5;color:var(--warning);width:50%;">❌ TRƯỚC — Vận hành truyền thống</th>
+              <th style="background:#F0FFF4;color:var(--success);width:50%;">✅ SAU — Hệ sinh thái số 3 Tầng</th>
+            </tr>
+            <tr>
+              <td class="before">Họp giao ban 2 tiếng mỗi sáng để nghe báo cáo</td>
+              <td class="after">Báo cáo Nhanh 7:00 — họp chỉ để ra quyết định</td>
+            </tr>
+            <tr>
+              <td class="before">Biết vấn đề khi đã quá muộn (cuối tháng, quyết toán)</td>
+              <td class="after">Cảnh báo sớm khi có dấu hiệu bất thường, AI phát hiện xu hướng chậm tiến độ / vượt giá vốn — phản ứng tức thì</td>
+            </tr>
+            <tr>
+              <td class="before">5 người làm báo cáo tháng mất 3 ngày</td>
+              <td class="after">Báo cáo tự động phát sinh, chính xác 100%</td>
+            </tr>
+            <tr>
+              <td class="before">VTTC, MTB tồn kho, luân chuyển chưa phù hợp — không ai biết</td>
+              <td class="after">AI gợi ý luân chuyển và điều phối VTTC, MTB tự động — tiết kiệm hàng tỷ/năm</td>
+            </tr>
+            <tr>
+              <td class="before">Người tài nghỉ hưu → tri thức mất theo</td>
+              <td class="after">TC.KNB lưu trữ vĩnh viễn — AI truyền lại, đối thủ không sao chép được</td>
+            </tr>
+            <tr>
+              <td class="before">Giá thầu dựa trên kinh nghiệm cá nhân, rủi ro chủ quan</td>
+              <td class="after">Dựa trên Dữ liệu: giá vốn thực 20+ năm lịch sử · AI gợi ý rủi ro thi công từ quá khứ</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="sf">Mục tiêu cuối cùng: Hệ sinh thái số là lợi thế cạnh tranh không thể sao chép của Trung Chính ·
+        2026</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="../04_operations_layer/index.html" class="nav-arr-link">❮</a>
+    <a href="../01_overview/index.html" class="nav-link">01 Tổng quan 3 Tầng</a>
+    <a href="../02_application_layer/index.html" class="nav-link">02 Tầng 3 · Ứng dụng</a>
+    <a href="../03_data_layer/index.html" class="nav-link">03 Tầng 2 · Dữ liệu</a>
+    <a href="../04_operations_layer/index.html" class="nav-link">04 Tầng 1 · Quản trị</a>
+    <a href="../05_core_values/index.html" class="nav-link active">05 Giá trị</a>
+    <a href="../01_overview/index.html" class="nav-arr-link">❯</a>
+  </nav>
+
+</body>
+
+</html>

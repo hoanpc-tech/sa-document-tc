@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA·01 — Intelligence Layer · Dashboard C-Level & AI Engine Trung Chính</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--b-deep:#0057A8;--b-main:#0078D4;--b-light:#00AEEF;--b-sky:#E8F4FD;--dark:#1A2B42;--gray-txt:#4A6080;--gray-mid:#B0C4D8;--success:#28A745;--warning:#E07040;--gold:#d4930a;--danger:#DC3545;--grad-h:linear-gradient(90deg,#003D7A 0%,#0078D4 55%,#00AEEF 100%);--grad-hero:linear-gradient(135deg,#0057A8 0%,#0091D5 60%,#00AEEF 100%);--shadow:0 4px 20px rgba(0,87,168,.10);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Be Vietnam Pro',sans-serif;background:#F2F7FC;color:var(--dark);}
+    .topbar{background:var(--grad-h);box-shadow:0 2px 16px rgba(0,60,140,.28);position:sticky;top:0;z-index:200;}
+    .topbar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:11px 28px;}
+    .topbar-logo{height:42px;filter:brightness(0) invert(1);}
+    .topbar-brand{flex:1;}
+    .topbar-brand .sub{color:rgba(255,255,255,.65);font-size:9px;letter-spacing:2.5px;text-transform:uppercase;}
+    .topbar-brand .name{color:#fff;font-size:16px;font-weight:800;}
+    .topbar-back{color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.3);transition:.2s;}
+    .topbar-back:hover{background:rgba(255,255,255,.15);}
+    .page{max-width:1280px;margin:0 auto;padding:32px 28px 80px;}
+    .hero{background:linear-gradient(135deg,#FFF8E8,#FFFDF5);border:2px solid var(--gold);border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start;}
+    .hero-tag{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+    .hero-h1{font-size:26px;font-weight:800;color:var(--b-deep);line-height:1.2;margin-bottom:8px;}
+    .hero-sub{font-size:13px;color:var(--gray-txt);line-height:1.7;max-width:680px;}
+    .hero-badge{background:linear-gradient(135deg,#d4930a,#f0b830);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;text-transform:uppercase;white-space:nowrap;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .stat{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;text-align:center;box-shadow:var(--shadow);}
+    .stat-icon{font-size:24px;margin-bottom:6px;}
+    .stat-num{font-size:20px;font-weight:800;color:var(--b-main);line-height:1.2;}
+    .stat-lbl{font-size:11px;color:var(--gray-txt);margin-top:4px;font-weight:600;}
+    .sec-title{font-size:11px;font-weight:800;color:var(--b-main);letter-spacing:2px;text-transform:uppercase;padding-left:12px;border-left:3px solid var(--b-main);margin-bottom:18px;}
+    .section{margin-bottom:32px;}
+    /* PERSONA CARDS */
+    .persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+    .persona-card{border-radius:14px;padding:24px;}
+    .persona-card.ct{background:linear-gradient(135deg,#FFF8E8,#FFFDF5);border:2px solid var(--gold);}
+    .persona-card.tgd{background:linear-gradient(135deg,#EBF4FD,#F2F9FF);border:2px solid var(--b-main);}
+    .persona-role{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+    .ct .persona-role{color:var(--gold);}
+    .tgd .persona-role{color:var(--b-main);}
+    .persona-name{font-size:17px;font-weight:800;color:var(--dark);margin-bottom:8px;}
+    .persona-desc{font-size:12px;color:var(--gray-txt);line-height:1.7;margin-bottom:14px;}
+    .persona-questions{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .persona-questions li{font-size:11.5px;color:var(--dark);background:rgba(0,0,0,.04);border-radius:6px;padding:5px 10px;font-style:italic;}
+    /* DASHBOARD TABS */
+    .tabs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+    .tab-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:16px;box-shadow:var(--shadow);}
+    .tab-num{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--b-light);margin-bottom:6px;}
+    .tab-title{font-size:13px;font-weight:800;color:var(--b-deep);margin-bottom:8px;}
+    .tab-kpis{list-style:none;display:flex;flex-direction:column;gap:4px;}
+    .tab-kpis li{font-size:11px;color:var(--gray-txt);display:flex;align-items:flex-start;gap:6px;}
+    .tab-kpis li::before{content:"•";color:var(--b-main);font-weight:800;flex-shrink:0;}
+    /* AI MODELS TABLE */
+    table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+    th{background:var(--b-sky);color:var(--b-deep);font-weight:800;font-size:11px;padding:10px 14px;text-align:left;border-bottom:2px solid #BDD9EF;}
+    td{padding:10px 14px;border-bottom:1px solid #EEF5FB;font-size:12px;}
+    tr:hover td{background:var(--b-sky);}
+    /* QUOTE BOX */
+    .quote{background:linear-gradient(135deg,#FFF8E8,#FFFDF5);border:1px solid rgba(212,147,10,.3);border-left:4px solid var(--gold);border-radius:8px;padding:16px 20px;font-size:14px;font-weight:700;color:var(--dark);line-height:1.7;margin-bottom:24px;font-style:italic;}
+    .quote strong{color:var(--gold);}
+    /* COMPARISON TABLE */
+    .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+    .cmp-card{background:#fff;border:1px solid #D5E8F5;border-radius:12px;padding:18px;box-shadow:var(--shadow);}
+    .cmp-title{font-size:11px;font-weight:800;color:var(--gray-txt);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #EEF5FB;}
+    .cmp-items{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .cmp-items li{display:flex;align-items:flex-start;gap:10px;font-size:12px;}
+    .before li::before{content:"✗";color:var(--danger);font-weight:800;flex-shrink:0;}
+    .after li::before{content:"✓";color:var(--success);font-weight:800;flex-shrink:0;}
+    .sf{margin-top:28px;padding-top:14px;border-top:1px solid #D5E8F5;text-align:center;font-size:10.5px;color:var(--gray-mid);}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="../../assets/LOGO-TRUNGCHINH.png" alt="Trung Chính" class="topbar-logo">
+      <div class="topbar-brand">
+        <div class="sub">Kiến trúc Hệ thống · SA-01 · Intelligence Layer — Tầng 1</div>
+        <div class="name">CÔNG TY TNHH THƯƠNG MẠI VÀ XÂY DỰNG TRUNG CHÍNH</div>
+      </div>
+      <a href="../../index.html" class="topbar-back">← Về trang chủ</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">SA · 01 · Intelligence Layer — Tầng 1</div>
+        <div class="hero-h1">Dashboard C-Level · AI Engine · Cảnh báo Sớm</div>
+        <div class="hero-sub">Tầng cao nhất của kiến trúc — "Mắt thần" của Ban Lãnh đạo. Thiết kế theo triết lý: <strong>Đúng người — Đúng thông tin — Đúng thời điểm</strong>. Mỗi lãnh đạo có Dashboard riêng phù hợp tư duy và quyền hạn.</div>
+      </div>
+      <div class="hero-badge">🧠 AI Layer</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">👔</div><div class="stat-num">2</div><div class="stat-lbl">C-Level Persona (Chủ tịch + TGĐ)</div></div>
+      <div class="stat"><div class="stat-icon">🤖</div><div class="stat-num">7</div><div class="stat-lbl">Mô hình AI Dự báo</div></div>
+      <div class="stat"><div class="stat-icon">⚡</div><div class="stat-num">10+</div><div class="stat-lbl">Kịch bản Cảnh báo Sớm</div></div>
+      <div class="stat"><div class="stat-icon">📊</div><div class="stat-num">9</div><div class="stat-lbl">Báo cáo tự động theo kỳ</div></div>
+    </div>
+
+    <div class="quote">"Mỗi buổi sáng, Chủ tịch và Tổng Giám đốc mở điện thoại trong <strong>5 phút</strong> — biết toàn bộ tình trạng doanh nghiệp và biết chính xác cần làm gì hôm nay."</div>
+
+    <!-- PERSONAS -->
+    <div class="section">
+      <div class="sec-title">Hai C-Level Persona Cốt lõi</div>
+      <div class="persona-grid">
+        <div class="persona-card ct">
+          <div class="persona-role">👑 Persona A</div>
+          <div class="persona-name">Chủ tịch HĐQT — Deep Production Commander</div>
+          <div class="persona-desc">Điều hành sản xuất trực tiếp — <strong>sâu đến từng dự án, từng hạng mục</strong>. Quan tâm đến 4 chiều của mỗi dự án: Tiến độ — Chất lượng — Sản lượng — Giá vốn.</div>
+          <ul class="persona-questions">
+            <li>"Giá vốn vượt bao nhiêu? Vượt hạng mục nào?"</li>
+            <li>"GTKH cọc khoan nhồi thực tế chi bao nhiêu rồi?"</li>
+            <li>"Tỷ lệ cốt thép thực tế so với thiết kế có bình thường không?"</li>
+            <li>"Máy cẩu #C07 tuần này chạy bao nhiêu giờ? Idle mấy giờ?"</li>
+          </ul>
+        </div>
+        <div class="persona-card tgd">
+          <div class="persona-role">🏢 Persona B</div>
+          <div class="persona-name">Tổng Giám đốc — Operations & Compliance Commander</div>
+          <div class="persona-desc">Điều hành hành chính, pháp lý và vận hành bộ máy văn phòng. Tư duy theo <strong>quy trình, hợp đồng, nhân sự và dòng tiền</strong> tổng công ty.</div>
+          <ul class="persona-questions">
+            <li>"Hợp đồng dự án X đã ký chưa? Đang vướng gì?"</li>
+            <li>"Bao nhiêu hồ sơ chờ phê duyệt quá 3 ngày?"</li>
+            <li>"Dòng tiền tháng này có đủ trả lương và thanh toán NCC?"</li>
+            <li>"Báo cáo an toàn tuần này có sự cố không?"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD TABS (Chủ tịch) -->
+    <div class="section">
+      <div class="sec-title">Dashboard Chủ tịch — 5 Tab Điều hành Sản xuất</div>
+      <div class="tabs-grid">
+        <div class="tab-card">
+          <div class="tab-num">Tab 1</div>
+          <div class="tab-title">🧱 Vật tư Chính (VTC)</div>
+          <ul class="tab-kpis">
+            <li>Tiến độ cung ứng VTC % KH tháng</li>
+            <li>Top 5 VTC trễ nhất + NCC nào</li>
+            <li>NXT tổng kho (thép, xi măng, cọc...)</li>
+            <li>Hao hụt thực tế vs Barem → phát hiện thất thoát</li>
+          </ul>
+        </div>
+        <div class="tab-card">
+          <div class="tab-num">Tab 2</div>
+          <div class="tab-title">🚜 Máy Thiết bị (MTB)</div>
+          <ul class="tab-kpis">
+            <li>Bản đồ vị trí MTB thực tế</li>
+            <li>% thời gian hoạt động vs Idle</li>
+            <li>P&L cho thuê máy từng thiết bị</li>
+            <li>Bảo dưỡng & đăng kiểm sắp hết hạn</li>
+            <li>AI gợi ý điều phối tối ưu máy</li>
+          </ul>
+        </div>
+        <div class="tab-card">
+          <div class="tab-num">Tab 3</div>
+          <div class="tab-title">👷 Nhân lực</div>
+          <ul class="tab-kpis">
+            <li>Nhân lực thực tế tại mỗi công trường hôm nay</li>
+            <li>Năng suất m²/người-ngày vs định mức</li>
+            <li>Chi phí nhân công vs GTKH</li>
+            <li>Nhân sự chứng chỉ sắp hết hạn</li>
+          </ul>
+        </div>
+        <div class="tab-card">
+          <div class="tab-num">Tab 4</div>
+          <div class="tab-title">📊 Tiến độ & Giá vốn</div>
+          <ul class="tab-kpis">
+            <li>Matrix 1 dòng = 1 dự án (15 dự án)</li>
+            <li>% tiến độ thực tế vs Baseline</li>
+            <li>Sản lượng % KH tháng</li>
+            <li>Giá vốn/GTKH — cảnh báo vượt</li>
+            <li>Tình trạng NCR & sự cố AT</li>
+          </ul>
+        </div>
+        <div class="tab-card">
+          <div class="tab-num">Tab 5 ★</div>
+          <div class="tab-title">🔍 Project Deep-Dive</div>
+          <ul class="tab-kpis">
+            <li>Drill-down 1 dự án — đầy đủ 4 chiều</li>
+            <li>[Chiều 1] Tiến độ Gantt vs Baseline</li>
+            <li>[Chiều 2] GTKH từng hạng mục vs Thực tế</li>
+            <li>[Chiều 3] Sản lượng và Nghiệm thu</li>
+            <li>[Chiều 4] Chất lượng NCR & An toàn AT</li>
+            <li>AI Briefing — Tóm tắt ra quyết định</li>
+          </ul>
+        </div>
+        <div class="tab-card">
+          <div class="tab-num">Dashboard TGĐ</div>
+          <div class="tab-title">🏢 Operations Control Center</div>
+          <ul class="tab-kpis">
+            <li>Pipeline Phê duyệt (hồ sơ chờ + quá hạn)</li>
+            <li>Tài chính: Dòng tiền + AR/AP + Dự báo 90 ngày</li>
+            <li>Nhân sự: Headcount + Tuyển dụng + KPI</li>
+            <li>Pháp lý: Radar Tuân thủ deadlines</li>
+            <li>KPI Scorecard toàn tổ chức</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI MODELS -->
+    <div class="section">
+      <div class="sec-title">7 Mô hình AI Dự báo</div>
+      <table>
+        <thead>
+          <tr><th>Mô hình AI</th><th>Đầu vào</th><th>Đầu ra</th><th>Phục vụ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Cost Overrun Predictor</strong></td><td>GTKH, giá vốn thực tế 60 ngày đầu, loại CT</td><td>Xác suất vượt giá vốn + % dự báo</td><td>Chủ tịch</td></tr>
+          <tr><td><strong>Schedule Delay Forecaster</strong></td><td>Tiến độ cập nhật, tốc độ thi công, thời tiết</td><td>Ngày hoàn thành thực tế dự báo</td><td>Chủ tịch</td></tr>
+          <tr><td><strong>Material Shortage Alert</strong></td><td>Tốc độ tiêu thụ VTC, tồn kho, lead time NCC</td><td>Ngày dự kiến hết từng loại VT</td><td>Chủ tịch</td></tr>
+          <tr><td><strong>Equipment Failure Predictor</strong></td><td>Lịch sử bảo dưỡng, giờ vận hành, sự cố</td><td>Thiết bị có nguy cơ hỏng trong 30 ngày</td><td>Chủ tịch</td></tr>
+          <tr><td><strong>Cashflow Forecast</strong></td><td>AR, AP, lịch nghiệm thu, chi phí lương</td><td>Forecast dòng tiền 30–90 ngày</td><td>TGĐ</td></tr>
+          <tr><td><strong>Project Profitability Predictor</strong></td><td>GTKH, chi phí thực, sản lượng, VO</td><td>Lãi/lỗ dự án khi hoàn thành</td><td>Cả 2</td></tr>
+          <tr><td><strong>Subcontractor Risk Score</strong></td><td>Lịch sử tiến độ, CL, AT của Thầu phụ</td><td>Điểm rủi ro 0–100 cho từng TP</td><td>Chủ tịch</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BEFORE / AFTER -->
+    <div class="section">
+      <div class="sec-title">Tầng 1 thay đổi cách Lãnh đạo điều hành như thế nào?</div>
+      <div class="compare-row">
+        <div class="cmp-card">
+          <div class="cmp-title">❌ Trước khi có Tầng 1</div>
+          <ul class="cmp-items before">
+            <li>Họp giao ban 2 tiếng mỗi sáng để nghe báo cáo</li>
+            <li>Biết công trường có vấn đề khi đã quá muộn</li>
+            <li>5 người làm báo cáo tháng mất 3 ngày</li>
+            <li>Quyết định dựa trên cảm tính và kinh nghiệm</li>
+            <li>Không ai biết máy cẩu #C07 đang idle lãng phí</li>
+          </ul>
+        </div>
+        <div class="cmp-card">
+          <div class="cmp-title">✅ Sau khi có Tầng 1</div>
+          <ul class="cmp-items after">
+            <li>Flash Report 7:00 sáng — họp chỉ để ra quyết định</li>
+            <li>Cảnh báo sớm ngay khi AI phát hiện xu hướng xấu</li>
+            <li>Báo cáo tự động phát sinh ngày 5 hàng tháng</li>
+            <li>Quyết định dựa trên data + gợi ý AI + kinh nghiệm lịch sử</li>
+            <li>Hệ thống gợi ý điều phối tối ưu tiết kiệm hàng tỷ/năm</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sf">Intelligence Layer · SA-01 · Dashboard C-Level & AI · Trung Chính 2025–2028 · VCI Consulting</div>
+  </div>
+</body>
+</html>
